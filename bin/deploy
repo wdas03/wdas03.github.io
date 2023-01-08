@@ -115,10 +115,10 @@ git commit --allow-empty -m "$(git log -1 --pretty=%B) [ci skip]"
 # Move back to SRC_BRANCH
 git checkout $SRC_BRANCH
 
-cd ..
-rm -rf wdas03.github.io
-git clone https://github.com/wdas03/wdas03.github.io
-cd wdas03.github.io
+#cd ..
+#rm -rf wdas03.github.io
+#git clone https://github.com/wdas03/wdas03.github.io
+#cd wdas03.github.io
 
 echo "Deployed successfully!"
 

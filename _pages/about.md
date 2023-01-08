@@ -47,6 +47,8 @@ Formerly interned @:
 - Visual Neuroscience
    - Oculometric analysis (time-series based methods)
 - Machine/Deep Learning
+   - Applications in Medicine
+   - Applications in Computer Vision
 - Blockchain Tech + Crypto
 -->
 
