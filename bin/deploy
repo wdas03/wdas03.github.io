@@ -114,6 +114,8 @@ git push -f -q origin $DEPLOY_BRANCH
 
 # Move back to SRC_BRANCH
 git checkout $SRC_BRANCH
+git restore .
+
 
 echo "Deployed successfully!"
 
