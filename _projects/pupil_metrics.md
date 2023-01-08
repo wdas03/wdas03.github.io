@@ -6,5 +6,5 @@ redirect: https://github.com/wdas03/pupil-metrics
 img: assets/img/pupil_metrics_cover.jpeg
 github: wdas03/pupil-metrics
 importance: 1
-category: neurobehavioral research
+category: neurobehavioral 
 ---

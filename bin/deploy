@@ -90,7 +90,7 @@ fi
 git checkout -b $DEPLOY_BRANCH
 
 # Delete _site directory
-rm -rf _site
+# rm -rf _site
 
 # Export JEKYLL_ENV=production
 export JEKYLL_ENV=production
