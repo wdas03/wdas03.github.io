@@ -2,10 +2,10 @@
 layout: page
 title: projects
 permalink: /projects/
-description: Some cool projects I've worked on.
+description: "Some fun projects I've worked on: interactive games, ML + computer vision research, data analysis of medical records."
 nav: true
 nav_order: 2
-display_categories:
+display_categories: ['neurobehavioral research', 'gene regulation', 'computer vision', 'ML', 'fun']
 horizontal: false
 ---
 
