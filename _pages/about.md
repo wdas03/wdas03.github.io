@@ -6,7 +6,7 @@ subtitle: Co-Founder | CTO @ Ocular Diagnostics; I.I. Rabi Scholar @ Columbia Un
 
 profile:
   align: right
-  image: prof_pic2.png
+  image: prof_pic3_2.png
   image_circular: true # crops the image to make it circular
   address: >
     <p class="font-weight-bold">I.I. Rabi Scholar</p>
@@ -21,10 +21,12 @@ social: true  # includes social icons at the bottom of the page
 ---
 ## Hello! 
 
-> My name is __Will Das__; I'm a Founder @ Ocular Diagnostics and neurobehavioral researcher broadly interested in computational medicine—especially applications of machine/deep learning. Currently working on software + hardware for better diagnostic and treatment systems for different types of neurobehavioral disorders. See my <a href="https://scholar.google.com/citations?view_op=list_works&hl=en&hl=en&user=qxLzqagAAAAJ">publications</a> and <a href="https://github.com/wdas03">code</a>.
+> My name is __Will Das__; I'm a Founder @ Ocular Diagnostics and neurobehavioral researcher broadly interested in computational medicine—especially applications of machine/deep learning. Currently working on software + hardware for creating better diagnostic and treatment systems for different types of neurobehavioral disorders. See my <a href="https://scholar.google.com/citations?view_op=list_works&hl=en&hl=en&user=qxLzqagAAAAJ">publications</a> and <a href="https://github.com/wdas03">code</a>.
 
 Co-founded __[Ocular Diagnostics](https://oculardiagnostix.com)__ in 2020—we’re creating a data platform to diagnose 
 neurobehavioral disorders like ADHD, using just your eye movements and performance on a 20 min cognitive test. 
+
+Currently studying CS + Cog Sci @ Columbia '25 as an I.I. Rabi Research Scholar.
 
 <!--
 > Formerly interned @:
