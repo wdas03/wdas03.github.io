@@ -16,7 +16,7 @@ footer_text: >
 keywords:  # add your own keywords or leave empty
 
 lang: en # the language of your site (for example: en, fr, cn, ru, etc.)
-icon: favicon.png # ⚛️  # the emoji used as the favicon (alternatively, provide image name in /assets/img/)
+icon: favicon_io/favicon.ico # ⚛️  # the emoji used as the favicon (alternatively, provide image name in /assets/img/)
 
 url: https://wdas03.github.io # the base hostname & protocol for your site
 baseurl: # the subpath of your site, e.g. /blog/
@@ -61,7 +61,7 @@ max_width: 900px
 # Display links to the page with a preview object on social media.
 serve_og_meta: true # Include Open Graph meta tags in the HTML head
 serve_schema_org: true # Include Schema.org in the HTML head
-og_image: favicon.png # The site-wide (default for all links) Open Graph preview image
+og_image: favicon_io/favicon.ico # The site-wide (default for all links) Open Graph preview image
 
 # -----------------------------------------------------------------------------
 # Social integration
