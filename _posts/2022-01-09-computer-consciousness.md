@@ -5,6 +5,7 @@ date:   2022-01-09 02:40:16
 description: Are computers conscious?
 tags: computers consciousness
 categories: cog-sci
+giscus_comments: true
 ---
 _What evidence should convince us that insects and/or computers are conscious?_
 

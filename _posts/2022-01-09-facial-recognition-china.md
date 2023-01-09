@@ -5,6 +5,7 @@ date:   2022-01-09 03:33:16
 description: Facial recognition in China.
 tags: facial-recognition ideological-engineering uighurs
 categories: ai facial-recognition
+giscus_comments: true
 ---
 Within the last decade, the Chinese authoritarian regime, in a stated effort to root out extremist and separatist threats to the nation, has escalated its persecution of the Uighurs, a Turkic Muslim minority predominantly residing in the northwest region of Xinjiang, officially known as the Xinjiang Uyghur Autonomous Region (XUAR) (Raza 488). Particularly, the regime has built a network of internment camps with the purpose of “re-educating” Uighurs, investing in extensive surveillance systems which involve mobile phone tracking, voice and DNA collection, police checkpoints, ubiquitous cameras, and facial recognition algorithms tuned specifically towards tracking, targeting and forcibly relocating Uighurs to these camps (Meterole & Polyakova 5). To date, they have subjugated over a million Uighurs to these internment camps (Samuel). 
 

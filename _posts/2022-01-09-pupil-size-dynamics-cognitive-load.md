@@ -5,6 +5,7 @@ date:   2022-01-09 02:53:16
 description: How are pupil-size dynamics reflective of cognitive load and mental effort?
 tags: pupil-size pupil-size-dynamics cognitive-load mental-effort 
 categories: visual-neuroscience pupil-size
+giscus_comments: true
 ---
 
 # Introduction

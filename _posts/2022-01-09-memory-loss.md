@@ -5,6 +5,7 @@ date:   2022-01-09 02:48:16
 description: In what ways can forgetting be useful and adaptive?
 tags: episodic-memory memory forgetting adaptive-forgetting
 categories: cog-sci
+giscus_comments: true
 ---
 _In what ways can forgetting be useful and adaptive?_
 
