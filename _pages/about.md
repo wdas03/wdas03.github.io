@@ -2,16 +2,16 @@
 layout: about
 title: about
 permalink: /
-subtitle: <b>Co-Founder | CTO @ Ocular Diagnostics; I.I. Rabi Scholar @ Columbia University; CS + ML researcher.</b>
+subtitle: Co-Founder | CTO @ Ocular Diagnostics; I.I. Rabi Scholar @ Columbia University '25; CS + ML researcher.
 
 profile:
   align: right
   image: prof_pic2.png
-  image_circular: false # crops the image to make it circular
-  address: 
-    <p>I.I. Rabi Scholar</p>
-    <p>CS + Cog Sci</p>
-    <p>Columbia University</p>
+  image_circular: true # crops the image to make it circular
+  address: >
+    <p class="font-weight-bold">I.I. Rabi Scholar</p>
+    <p class="font-weight-bold">CS + Cog Sci</p>
+    <p class="font-weight-bold">Columbia University</p>
     <p><a href="mailto:whd2108@columbia.edu">whd2108@columbia.edu</a></p>
     <p><a href="mailto:williamhdas@gmail.com">williamhdas@gmail.com</a></p>
 
@@ -21,9 +21,9 @@ social: true  # includes social icons at the bottom of the page
 ---
 ## Hello! 
 
-> My name is Will Das; I'm a Founder @ Ocular Diagnostics and neurobehavioral researcher broadly interested in computational medicine—especially applications of machine/deep learning. Currently working on software + hardware for better diagnostic and treatment systems for different types of neurobehavioral disorders. See my <a href="https://scholar.google.com/citations?view_op=list_works&hl=en&hl=en&user=qxLzqagAAAAJ">publications</a> and <a href="https://github.com/wdas03">code</a>.
+> My name is __Will Das__; I'm a Founder @ Ocular Diagnostics and neurobehavioral researcher broadly interested in computational medicine—especially applications of machine/deep learning. Currently working on software + hardware for better diagnostic and treatment systems for different types of neurobehavioral disorders. See my <a href="https://scholar.google.com/citations?view_op=list_works&hl=en&hl=en&user=qxLzqagAAAAJ">publications</a> and <a href="https://github.com/wdas03">code</a>.
 
-Co-founded <a href="https://oculardiagnostix.com">Ocular Diagnostics</a> in 2020—we’re creating a data platform to diagnose 
+Co-founded __[Ocular Diagnostics](https://oculardiagnostix.com)__ in 2020—we’re creating a data platform to diagnose 
 neurobehavioral disorders like ADHD, using just your eye movements and performance on a 20 min cognitive test. 
 
 <!--
@@ -60,5 +60,7 @@ Formerly interned @:
 >   - Oculometric analysis (time-series based methods)
 > - Machine/Deep Learning
 > - Blockchain Tech + Crypto
+
+Reach me at __whd2108@columbia.edu__ or __williamhdas@gmail.com__.
  
 

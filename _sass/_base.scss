@@ -111,6 +111,9 @@ blockquote {
 .profile.float-left{
   margin-right: 1rem;
 }
+.theme-color{
+  color: var(--global-theme-color);
+}
 
 @media (min-width: 576px) {
   .profile {
