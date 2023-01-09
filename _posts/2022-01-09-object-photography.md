@@ -5,7 +5,8 @@ date:   2022-01-09 03:40:16
 description: Object-based Photography
 tags: object-photography
 categories: object-photography israeli-palestinian-conflict
-giscus_comments: true
+disqus_comments: true
+#giscus_comments: true
 ---
 Amidst a nation’s political crisis, the stillness of an apartment or house in disarray, encapsulated by a photograph consisting merely of domestic objects—a “ruined kitchen” in the city of Donetsk set in 2014, for instance, an indirect depiction of the destruction ensued by Ukraine’s political violence—carries with it a grim, yet moving sense of solace and nostalgia. Consider the still, object-based photograph of a bedroom in the village of Kobar in Palestine entitled “Habibi,” which means “my love,” captured in August 2015 by Italian documentary photographer Antonio Faccilongo. A man’s suit hangs in the center of a pink-lit bedroom. The man’s name is Nael Al-Barghouth; he is the longest serving Palestinian prisoner in Israel, imprisoned for more than 40 years in Israeli prisons for leading anti-Israel commando operations amidst the century old Israeli-Palestinian conflict (“Habibi”). As a result, he has been separated from his family all these years.
 Rather than depict violence or war, Faccilongo sought to portray everyday domestic life in Palestine, a tribute to families separated due to rampant Palestinian male imprisonment in Israeli prisons, stemming from cultural conflict. Importantly, Faccilongo endeavored to depict a narrative centered on love and family complicated by separation, but restored bizarrely: through the smuggling of semen out of prison as a means for procreation—an act of familial love (“Habibi”).
