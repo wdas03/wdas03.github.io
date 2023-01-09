@@ -21,12 +21,12 @@ social: true  # includes social icons at the bottom of the page
 ---
 ## Hello! 
 
-> My name is __Will Das__; I'm a Founder @ Ocular Diagnostics and neurobehavioral researcher broadly interested in computational medicine—especially applications of machine/deep learning. Currently working on software + hardware for creating better diagnostic and treatment systems for different types of neurobehavioral disorders. See my <a href="https://scholar.google.com/citations?view_op=list_works&hl=en&hl=en&user=qxLzqagAAAAJ">publications</a> and <a href="https://github.com/wdas03">code</a>.
+> My name is __Will Das__; I'm a Founder @ [Ocular Diagnostics](https://oculardiagnostix.com) and neurobehavioral researcher broadly interested in computational medicine—especially applications of machine/deep learning. Currently working on software + hardware for creating better diagnostic and treatment systems for different types of neurobehavioral disorders. See my [publications](https://scholar.google.com/citations?view_op=list_works&hl=en&hl=en&user=qxLzqagAAAAJ) and [code](https://github.com/wdas03).
 
 Co-founded __[Ocular Diagnostics](https://oculardiagnostix.com)__ in 2020—we’re creating a data platform to diagnose 
 neurobehavioral disorders like ADHD, using just your eye movements and performance on a 20 min cognitive test. 
 
-Currently studying CS + Cog Sci @ Columbia '25 as an I.I. Rabi Research Scholar.
+Currently studying __CS + Cog Sci__ @ Columbia University as an __I.I. Rabi Research Scholar__.
 
 <!--
 > Formerly interned @:
