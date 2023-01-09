@@ -21,12 +21,12 @@ social: true  # includes social icons at the bottom of the page
 ---
 ## Hello! 
 
-> My name is __Will Das__; I'm a Founder @ [Ocular Diagnostics](https://oculardiagnostix.com) and neurobehavioral researcher broadly interested in computational medicine—especially applications of machine/deep learning. Currently working on software + hardware for creating better diagnostic and treatment systems for different types of neurobehavioral disorders. See my [publications](https://scholar.google.com/citations?view_op=list_works&hl=en&hl=en&user=qxLzqagAAAAJ) and [code](https://github.com/wdas03).
+> My name is __Will Das__; I'm a Founder @ [Ocular Diagnostics](https://oculardiagnostix.com), a venture-backed MedTech startup, and neurobehavioral researcher broadly interested in computational medicine—especially applications of machine/deep learning. Currently working on software + hardware for creating better diagnostic and treatment systems for different types of neurobehavioral disorders. See my [publications](https://scholar.google.com/citations?view_op=list_works&hl=en&hl=en&user=qxLzqagAAAAJ) and [code](https://github.com/wdas03).
 
-Co-founded __[Ocular Diagnostics](https://oculardiagnostix.com)__ in 2020—we’re creating a data platform to diagnose 
+- Co-founded __[Ocular Diagnostics](https://oculardiagnostix.com)__ in 2020—we’re creating a data platform to diagnose 
 neurobehavioral disorders like ADHD, using just your eye movements and performance on a 20 min cognitive test. 
 
-Currently studying __CS + Cog Sci__ @ Columbia University as an __I.I. Rabi Research Scholar__.
+- Currently studying __CS + Cog Sci__ @ Columbia University as an __I.I. Rabi Research Scholar__.
 
 <!--
 > Formerly interned @:
@@ -53,15 +53,18 @@ Formerly interned @:
    - Applications in Computer Vision
 - Blockchain Tech + Crypto
 -->
+<br>
 
-> __Areas of Interest:__
-> - Computational Medicine
+### __Areas of Interest__
+> - __Computational Medicine__
 >      - Computational genomics
 >      - Machine/deep learning applications to medicine
-> - Visual Neuroscience
->   - Oculometric analysis (time-series based methods)
-> - Machine/Deep Learning
-> - Blockchain Tech + Crypto
+> - __Visual Neuroscience__
+>   - Oculometric analysis (pupil-size, eye-gaze, spontaneous eye blinks)
+>       - Time-series based methods
+>   - Pupil-size as indicators of cognitive processing (cognitive load, working memory, attention)
+> - __Machine/Deep Learning__
+> - __Blockchain Tech + Crypto__
 
 Reach me at __whd2108@columbia.edu__ or __williamhdas@gmail.com__.
  
