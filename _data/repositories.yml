@@ -2,6 +2,7 @@ github_users:
   - wdas03
 
 github_repos:
+  - wdas03/wdas03.github.io
   - wdas03/adhd_eye_gaze_analysis
   - wdas03/adhd_hyperaktiv_ml
   - wdas03/GRN_MIFS

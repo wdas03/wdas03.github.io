@@ -18,6 +18,19 @@ pagination:
   <div class="header-bar">
     <h1>{{ site.blog_name }}</h1>
     <h2>{{ site.blog_description }}</h2>
+
+    <div class="tag-list">
+      <ul class="p-0 m-0">
+        {% for cat in site.categories %}
+          <li>
+            <a href="{{ cat[0] | slugify | prepend: '/blog/category/' | relative_url }}">{{ cat[0] }}</a>
+          </li>
+          {% unless forloop.last %}
+            <p>&bull;</p>
+          {% endunless %}
+        {% endfor %}
+      </ul>
+    </div>
   </div>
 
   {% if site.display_tags %}
@@ -25,7 +38,7 @@ pagination:
     <ul class="p-0 m-0">
       {% for tag in site.display_tags %}
         <li>
-          <i class="fas fa-hashtag fa-sm"></i> <a href="{{ tag | slugify | prepend: '/blog/tag/' | relative_url }}">{{ tag }}</a>
+          <i class="fas fa-hashtag fa-sm"></i> <a href="{{ tag | slugify | prepend: '/blog/tag/' | relative_url }}">{{ tag[0] }}</a>
         </li>
         {% unless forloop.last %}
           <p>&bull;</p>
@@ -34,6 +47,21 @@ pagination:
     </ul>
   </div>
   {% endif %}
+
+  <!--
+  <div class="tag-list">
+    <ul class="p-0 m-0">
+      {% for tag in site.tags %}
+        <li>
+          <i class="fas fa-hashtag fa-sm"></i> <a href="{{ tag[0] | slugify | prepend: '/blog/tag/' | relative_url }}">{{ tag[0] }}</a>
+        </li>
+        {% unless forloop.last %}
+          <p>&bull;</p>
+        {% endunless %}
+      {% endfor %}
+    </ul>
+  </div>
+-->
 
   <ul class="post-list">
     {% for post in paginator.posts %}
@@ -62,7 +90,7 @@ pagination:
           {% endif %}
         {% endif %}
       </h3>
-      <p>{{ post.description }}</p>
+      <p style="color: var(--global-theme-color);">{{ post.description }}</p>
       <p class="post-meta">
         {{ read_time }} min read &nbsp; &middot; &nbsp;
         {{ post.date | date: '%B %-d, %Y' }}
