@@ -4,7 +4,7 @@ title:  "Computer Consciousness: How The Underlying Mechanisms of Deep Learning 
 date:   2022-01-09 02:40:16
 description: Are computers conscious?
 tags: computers consciousness
-categories: cog-sci
+categories: cog-sci consciousness
 disqus_comments: true
 #giscus_comments: true
 ---
