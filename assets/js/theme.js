@@ -80,5 +80,5 @@ let initTheme = (theme) => {
 }
 
 
-// initTheme(localStorage.getItem("theme"));
-initTheme("dark");
+initTheme(localStorage.getItem("theme"));
+//initTheme("light");
