@@ -23,13 +23,27 @@ pagination:
       <ul class="p-0 m-0">
         {% for cat in site.categories %}
           <li>
-            <a href="{{ cat[0] | slugify | prepend: '/blog/category/' | relative_url }}">{{ cat[0] }}</a>
+            <i class="fas fa-tag fa-sm"></i> <a href="{{ cat[0] | slugify | prepend: '/blog/category/' | relative_url }}">{{ cat[0] }}</a>
           </li>
           {% unless forloop.last %}
             <p>&bull;</p>
           {% endunless %}
         {% endfor %}
       </ul>
+      <!--
+      <br>
+
+      <ul class="p-0 m-0">
+        {% for tag in site.tags %}
+          <li>
+            <i class="fas fa-hashtag fa-sm"></i> <a href="{{ tag[0] | slugify | prepend: '/blog/tag/' | relative_url }}">{{ tag[0] }}</a>
+          </li>
+          {% unless forloop.last %}
+            <p>&bull;</p>
+          {% endunless %}
+        {% endfor %}
+      </ul>
+      -->
     </div>
   </div>
 
