@@ -114,9 +114,9 @@ bing_site_verification:  # out your bing-site-verification ID (Bing Webmaster)
 # Blog
 # -----------------------------------------------------------------------------
 
-blog_name: my-thoughts # blog_name will be displayed in your blog page
+blog_name: w.h.d. # blog_name will be displayed in your blog page
 blog_nav_title: blog # your blog must have a title for it to be displayed in the nav bar
-blog_description: some musings, papers, and thoughts.
+blog_description: mostly papers at the moment
 permalink: /blog/:year/:title/
 
 # Pagination
