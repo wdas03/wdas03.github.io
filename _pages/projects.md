@@ -5,7 +5,7 @@ permalink: /projects/
 description: Some fun projects I've worked on.
 nav: true
 nav_order: 2
-display_categories: ['neurobehavioral', 'gene regulation', 'computer vision', 'ML', 'fun']
+display_categories: ['neurobehavioral', 'gene regulation', 'computer vision', 'ML', 'web dev', 'fun']
 horizontal: false
 ---
 
