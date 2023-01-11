@@ -96,11 +96,12 @@
   contents:
     - title: Langauges
       items:
-        - Python, C/C++, Java, HTML/CSS/JavaScript, Haskell, MySQL
+        - Python, C/C++, Java, HTML/CSS/JavaScript, Haskell, MySQL, MongoDB, Neo4j.
     - title: Frameworks
       items:
         - Scikit-Learn, Pandas, NumPy, TensorFlow, PyTorch, Keras, Flask, OpenCV, Open3D, GStreamer, Kafka, Docker, gRPC, RabbitMQ, InfluxDB.
     - title: Platforms
+      items:
         - AWS Kinesis Video Streams/Lambda/EC2, Git.
 
 - title: Academic Interests
