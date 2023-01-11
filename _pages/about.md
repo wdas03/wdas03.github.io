@@ -21,7 +21,7 @@ social: true  # includes social icons at the bottom of the page
 ---
 ## Hello! 
 
-> My name is __Will Das__; I'm a Founder @ [Ocular Diagnostics](https://oculardiagnostix.com), a venture-backed MedTech startup, software engineer, and neurobehavioral researcher broadly interested in computational medicine—especially applications of machine/deep learning. Currently working on software + hardware for creating better diagnostic and treatment systems for different types of neurobehavioral disorders. See my [publications](https://scholar.google.com/citations?view_op=list_works&hl=en&hl=en&user=qxLzqagAAAAJ) and [code](https://github.com/wdas03).
+> My name is __Will Das__; I'm a Founder @ [Ocular Diagnostics](https://oculardiagnostix.com) (venture-backed MedTech startup), software engineer, and neurobehavioral researcher broadly interested in computational medicine, machine learning, and software systems. Currently working on software + hardware to facilitate better diagnostic and treatment systems for different types of neurobehavioral disorders. See my [publications](https://scholar.google.com/citations?view_op=list_works&hl=en&hl=en&user=qxLzqagAAAAJ) and [code](https://github.com/wdas03).
 
 - Co-founded __[Ocular Diagnostics](https://oculardiagnostix.com)__ in 2020—we’re creating a data platform to diagnose 
 neurobehavioral disorders like ADHD, using just your eye movements and performance on a 20 min cognitive test. 
@@ -36,10 +36,11 @@ neurobehavioral disorders like ADHD, using just your eye movements and performan
 >   - Nokia Bell Labs (Applied AI/ML Software Engineer Intern)
 -->
 Formerly interned @:
-  - __New York University Video Lab__ (under Dr. Yao Wang)
-  - __Icahn School of Medicine at Mount Sinai__ (under Dr. Li Shen)
-  - __Symbotic__ (ML/Software Engineer Intern)   
   - __Nokia Bell Labs__ (Applied AI/ML Software Engineer Intern)  
+  - __Symbotic__ (ML/Software Engineer Intern)   
+  - __Icahn School of Medicine at Mount Sinai__ (under Dr. Li Shen)
+  - __New York University Video Lab__ (under Dr. Yao Wang)
+  
 
 <!--
 #### Areas of Interest:
