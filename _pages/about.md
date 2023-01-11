@@ -64,7 +64,13 @@ Formerly interned @:
 >   - Oculometric analysis (pupil-size, eye-gaze, spontaneous eye blinks)
 >       - Time-series based methods
 >   - Pupil-size as indicators of cognitive processing (cognitive load, working memory, attention)
+> - __Computer Vision__
+>   - Semantic segmentation/classification of biological structures from 2D/3D medical images (ultrasound)
+>   - Mammographic imaging for breast cancer risk prediction
 > - __Machine/Deep Learning__
+>   - Applications to medicine
+>   - Analysis of electronic health records
+>   - Hybrid ML/DL methods for disease detection
 > - __Blockchain Tech + Crypto__
 
 Reach me at __whd2108@columbia.edu__ or __williamhdas@gmail.com__.
