@@ -91,6 +91,18 @@
       items: 
         - Milton Fisher Scholarship for Innovation and Creativity
 
+- title: Technical Skills
+  type: nested_list
+  contents:
+    - title: Langauges
+      items:
+        - Python, C/C++, Java, HTML/CSS/JavaScript, Haskell, MySQL
+    - title: Frameworks
+      items:
+        - Scikit-Learn, Pandas, NumPy, TensorFlow, PyTorch, Keras, Flask, OpenCV, Open3D, GStreamer, Kafka, Docker, gRPC, RabbitMQ, InfluxDB.
+    - title: Platforms
+        - AWS Kinesis Video Streams/Lambda/EC2, Git.
+
 - title: Academic Interests
   type: nested_list
   contents:
