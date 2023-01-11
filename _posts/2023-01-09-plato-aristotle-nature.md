@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Aristotle’s Contradictory Perspectives on Natural Rights and Virtue in Politics and Nicomachean Ethics Alongside Plato’s Republic"
-date:   2022-01-09 03:20:16
+date:   2023-01-09 03:20:16
 description: To what extent does Aristotle’s concept of “nature” and the “natural” emerge from Plato’s Republic? 
 tags: plato aristotle nature natural
 categories: philosophy

@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "The Genetic and Environmental Etiology of Attention-Deficit/Hyperactivity Disorder: Nature, Nurture, and Heritability in ADHD"
-date:   2022-01-09 03:47:16
+date:   2023-01-09 03:47:16
 description: Genetics behind ADHD.
 tags: adhd genetics etiology nature nurture
 categories: adhd adhd-genetics

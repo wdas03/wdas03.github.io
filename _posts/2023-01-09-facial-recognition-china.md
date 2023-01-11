@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Behavioral and 'Ideological' Engineering: An Analysis of the Effects of AI-based Facial Recognition Technology on Uighur Cultural Identities and Internal Attitudes in China"
-date:   2022-01-09 03:33:16
+date:   2023-01-09 03:33:16
 description: Facial recognition in China.
 tags: facial-recognition ideological-engineering uighurs
 categories: ai facial-recognition

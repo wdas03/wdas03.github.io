@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Applying Metaphorical and Metaphysical Abstractions: Platonic Undercurrents in Hobbes’ Leviathan and Descartes’ Discourse on Method"
-date:   2022-01-09 03:26:16
+date:   2023-01-09 03:26:16
 description: “The safest general characterization of the European philosophical tradition is that it consists of a series of footnotes to Plato. I do not mean the systematic scheme of thought which scholars have doubtfully extracted from his writings. I allude to the wealth of general ideas scattered through them… Every problem that Plato discusses is still with us today.” 
 tags: plato hobbes descartes leviathan discourse-on-method
 categories: philosophy

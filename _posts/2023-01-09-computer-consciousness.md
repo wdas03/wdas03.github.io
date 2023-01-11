@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Computer Consciousness: How The Underlying Mechanisms of Deep Learning Systems Coincide with Theories of General Consciousness" 
-date:   2022-01-09 02:40:16
+date:   2023-01-09 02:40:16
 description: Are computers conscious?
 tags: computers consciousness
 categories: cog-sci consciousness

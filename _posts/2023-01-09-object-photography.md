@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Engendering Love, Emotion, and Understanding Through Object-based Photography: Family and Domestic Life During the Israeli-Palestinian Conflict"
-date:   2022-01-09 03:40:16
+date:   2023-01-09 03:40:16
 description: Object-based Photography
 tags: object-photography
 categories: object-photography israeli-palestinian-conflict

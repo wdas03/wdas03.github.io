@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Visual Cognitive Processing Reflected in Task-Evoked Pupillary Responses: Pupil-Size Dynamics as an Indicator of Cognitive Load and Mental Effort" 
-date:   2022-01-09 02:53:16
+date:   2023-01-09 02:53:16
 description: How are pupil-size dynamics reflective of cognitive load and mental effort?
 tags: pupil-size pupil-size-dynamics cognitive-load mental-effort 
 categories: visual-neuroscience pupil-size

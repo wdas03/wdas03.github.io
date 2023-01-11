@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "'Functional' Forgetting for Episodic and Semantic Memory: Loss of Memory as an Occasionally Adaptive Method"
-date:   2022-01-09 02:48:16
+date:   2023-01-09 02:48:16
 description: In what ways can forgetting be useful and adaptive?
 tags: episodic-memory memory forgetting adaptive-forgetting
 categories: cog-sci
