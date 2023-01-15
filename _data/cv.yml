@@ -90,6 +90,10 @@
     - year: 2021
       items: 
         - Milton Fisher Scholarship for Innovation and Creativity
+    - year: 2020
+      items:
+        - Published + Speaker @ 11th ACM International Conference on Bioinformatics, Computational Biology, and Health Informatics
+        - Published + Speaker @ IEEE/ITU International Conference on AI for Good
 
 - title: Technical Skills
   type: nested_list
@@ -103,18 +107,6 @@
     - title: Platforms
       items:
         - AWS Kinesis Video Streams/Lambda/EC2, Git.
-
-- title: Academic Interests
-  type: nested_list
-  contents:
-    - title: Computational Medicine
-      items: 
-        - Computational genomics
-        - Machine/deep learning applications to medicine
-    - title: Visual Neuroscience
-      items:
-        - Oculometric analysis (time-series based methods)
-    - title: Machine/Deep Learning
 
 - title: Other Interests
   type: list
