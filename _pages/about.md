@@ -36,10 +36,10 @@ neurobehavioral disorders like ADHD, using just your eye movements and performan
 >   - Nokia Bell Labs (Applied AI/ML Software Engineer Intern)
 -->
 Formerly interned @:
-  - __Nokia Bell Labs__ (Applied AI/ML Software Engineer Intern)  
-  - __Symbotic__ (ML/Software Engineer Intern)   
-  - __Icahn School of Medicine at Mount Sinai__ (under Dr. Li Shen)
-  - __New York University Video Lab__ (under Dr. Yao Wang)
+  - __[Nokia Bell Labs](https://bell-labs.com)__ (Applied AI/ML Software Engineer Intern)  
+  - __[Symbotic](https://symbotic.com)__ (ML/Software Engineer Intern)   
+  - __[Icahn School of Medicine at Mount Sinai](https://labs.neuroscience.mssm.edu/project/shen-lab/)__ (under Dr. Li Shen)
+  - __[New York University Video Lab](https://wp.nyu.edu/videolab/)__ (under Dr. Yao Wang)
   
 
 <!--
