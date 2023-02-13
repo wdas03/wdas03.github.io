@@ -26,6 +26,8 @@ social: true  # includes social icons at the bottom of the page
 - Co-founded __[Ocular Diagnostics](https://oculardiagnostix.com)__ in 2020—we’re creating a data platform to diagnose 
 neurobehavioral disorders like ADHD, using just your eye movements and performance on a 20 min cognitive test. 
 
+- Co-founded and led __[Coding for Impact](https://codingforimpact.org)__ from 2018-2021, helping deliver tech to underserved NGOs across the globe.
+
 - Currently studying __CS + Cog Sci__ @ Columbia University as an __I.I. Rabi Research Scholar__. Interested in building scalable and reliable software systems.
 
 <!--
