@@ -2,6 +2,9 @@ github_users:
   - wdas03
 
 github_repos:
+  - wdas03/project_euler_py
+  - wdas03/nyc_connector_geocoding
+  - wdas03/gstreamer_aws_kinesis
   - wdas03/Citadel-Datathon-Spring-2022
   - wdas03/wdas03.github.io
   - wdas03/adhd_eye_gaze_analysis
