@@ -1,0 +1,10 @@
+---
+layout: page
+title: GStreamer to AWS Kinesis Video Recording
+description: C++ implementation of video recording app to AWS Kinesis Video Streams Using C++.
+redirect: https://github.com/wdas03/gstreamer_aws_kinesis
+img: 
+github: https://github.com/wdas03/gstreamer_aws_kinesis
+importance: 1
+category: computer vision
+---
