@@ -2,6 +2,7 @@ github_users:
   - wdas03
 
 github_repos:
+  - wdas03/hmm_pos_tagging
   - wdas03/fashion_mnist_classification
   - wdas03/fairness_aware_classification
   - wdas03/ngram_humvgpt_classification
