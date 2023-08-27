@@ -21,7 +21,9 @@ social: true  # includes social icons at the bottom of the page
 ---
 ## Hello! 
 
-> My name is __Will Das__; I'm a Founder @ [Ocular Diagnostics](https://oculardiagnostix.com) (venture-backed MedTech startup), software engineer, and cited neurobehavioral researcher broadly interested in computational medicine, applied machine learning, and software systems. Currently working on software + hardware to facilitate better diagnostic and treatment systems for different types of neurobehavioral disorders. See my [publications](https://scholar.google.com/citations?view_op=list_works&hl=en&hl=en&user=qxLzqagAAAAJ) and [code](https://github.com/wdas03).
+> My name is __Will Das__; I'm a Founder @ [Ocular Diagnostics](https://oculardiagnostix.com) (venture-backed MedTech startup), software engineer, and cited neurobehavioral researcher broadly interested in computational medicine, applied machine learning/AI, and software systems. Currently working on software + hardware to facilitate better diagnostic and treatment systems for different types of neurobehavioral disorders. See my [publications](https://scholar.google.com/citations?view_op=list_works&hl=en&hl=en&user=qxLzqagAAAAJ) and [code](https://github.com/wdas03).
+
+- Selected as 2023 __[Kleiner Perkins Engineering Fellow](https://fellows.kleinerperkins.com)__.
 
 - Co-founded __[Ocular Diagnostics](https://oculardiagnostix.com)__ in 2020—we’re creating a data platform to diagnose 
 neurobehavioral disorders like ADHD, using just your eye movements and performance on a 20 min cognitive test. 
@@ -38,8 +40,9 @@ neurobehavioral disorders like ADHD, using just your eye movements and performan
 >   - Nokia Bell Labs (Applied AI/ML Software Engineer Intern)
 -->
 Formerly interned @:
+  - __[Helix, Inc.](https://helix.com)__ (Software Engineer/Applied AI Intern); as Kleiner Perkins Engineering Fellow.
   - __[Nokia Bell Labs](https://bell-labs.com)__ (Applied AI/ML Software Engineer Intern)  
-  - __[Symbotic](https://symbotic.com)__ (ML/Software Engineer Intern)   
+  - __[Symbotic, LCC.](https://symbotic.com)__ (ML/Software Engineer Intern)   
   - __[Icahn School of Medicine at Mount Sinai](https://labs.neuroscience.mssm.edu/project/shen-lab/)__ (under Dr. Li Shen)
   - __[New York University Video Lab](https://wp.nyu.edu/videolab/)__ (under Dr. Yao Wang)
   
@@ -73,7 +76,6 @@ Formerly interned @:
 >   - Applications to medicine
 >   - Analysis of electronic health records
 >   - Hybrid ML/DL methods for disease detection
-> - __Blockchain Tech + Crypto__
 
 Reach me at __whd2108@columbia.edu__ or __williamhdas@gmail.com__.
  
