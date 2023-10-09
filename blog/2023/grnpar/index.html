@@ -1,0 +1,767 @@
+<!DOCTYPE html> <html lang="en"> <head> <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> <meta charset="utf-8"> <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <title>GRNPar: Parallel Inference of Gene Regulatory Networks Using Boolean Network Models and Mutual Information | Will Das</title> <meta name="author" content="Will Das"> <meta name="description" content="Parallel gene regulation inference in Haskell."> <meta property="og:site_name" content="Will Das"> <meta property="og:type" content="website"> <meta property="og:title" content="Will Das | GRNPar: Parallel Inference of Gene Regulatory Networks Using Boolean Network Models and Mutual Information"> <meta property="og:url" content="https://williamhdas.com/blog/2023/grnpar/"> <meta property="og:description" content="Parallel gene regulation inference in Haskell."> <meta property="og:image" content="favicon_io/favicon.ico"> <meta property="og:locale" content="en"> <meta name="twitter:card" content="summary"> <meta name="twitter:title" content="GRNPar: Parallel Inference of Gene Regulatory Networks Using Boolean Network Models and Mutual Information"> <meta name="twitter:description" content="Parallel gene regulation inference in Haskell."> <meta name="twitter:image" content="favicon_io/favicon.ico"> <script type="application/ld+json">
+      {
+        "author":
+        {
+          "@type": "Person",
+          "name": "Will  Das"
+        },
+        "url": "https://williamhdas.com/blog/2023/grnpar/",
+        "@type": "WebSite",
+        "description": "Parallel gene regulation inference in Haskell.",
+        "headline": "GRNPar: Parallel Inference of Gene Regulatory Networks Using Boolean Network Models and Mutual Information",
+        "sameAs": ["https://orcid.org/0000-0001-5976-4791", "https://scholar.google.com/citations?user=qxLzqagAAAAJ", "https://www.semanticscholar.org/author/1379932040", "https://github.com/wdas03", "https://www.linkedin.com/in/william-das-96598618a"],
+        "name": "Will  Das",
+        "@context": "https://schema.org"
+      }
+    </script> <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha256-DF7Zhf293AJxJNTmh5zhoYYIMs2oXitRfBjY+9L//AY=" crossorigin="anonymous"> <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous"> <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous"> <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/academicons@1.9.1/css/academicons.min.css" integrity="sha256-i1+4qU2G2860dGGIOJscdC30s9beBXjFfzjWLjBRsBg=" crossorigin="anonymous"> <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons"> <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jwarby/jekyll-pygments-themes@master/github.css" media="" id="highlight_theme_light"> <link rel="shortcut icon" href="/assets/img/favicon_io/favicon.ico"> <link rel="stylesheet" href="/assets/css/main.css"> <link rel="canonical" href="https://williamhdas.com/blog/2023/grnpar/"> </head> <body class="fixed-top-nav "> <header> <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top"> <div class="container"> <a class="navbar-brand title font-weight-lighter" href="/"> <img src="/assets/img/favicon_io/favicon-32x32.png"></a> <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar top-bar"></span> <span class="icon-bar middle-bar"></span> <span class="icon-bar bottom-bar"></span> </button> <div class="collapse navbar-collapse text-right" id="navbarNav"> <ul class="navbar-nav ml-auto flex-nowrap"> <li class="nav-item "> <a class="nav-link" href="/">about</a> </li> <li class="nav-item "> <a class="nav-link" href="/publications/">publications</a> </li> <li class="nav-item "> <a class="nav-link" href="/projects/">projects</a> </li> <li class="nav-item "> <a class="nav-link" href="/repositories/">github repos</a> </li> <li class="nav-item "> <a class="nav-link" href="/cv/">CV</a> </li> <li class="nav-item active"> <a class="nav-link" href="/blog/">blog<span class="sr-only">(current)</span></a> </li> </ul> </div> </div> </nav> <progress id="progress" value="0"> <div class="progress-container"> <span class="progress-bar"></span> </div> </progress> </header> <div class="container mt-5"> <div class="post"> <header class="post-header"> <h1 class="post-title" style="color: var(--global-theme-color);">GRNPar: Parallel Inference of Gene Regulatory Networks Using Boolean Network Models and Mutual Information</h1> <p class="post-meta">January 9, 2023</p> <p class="post-tags"> <a href="/blog/2023"> <i class="fas fa-calendar fa-sm"></i> 2023 </a>   ·   <a href="/blog/tag/haskell"> <i class="fas fa-hashtag fa-sm"></i> haskell</a>   <a href="/blog/tag/gene-regulatory-networks"> <i class="fas fa-hashtag fa-sm"></i> gene-regulatory-networks</a>   <a href="/blog/tag/gene-regulatory-inference"> <i class="fas fa-hashtag fa-sm"></i> gene-regulatory-inference</a>     ·   <a href="/blog/category/parallel-programming"> <i class="fas fa-tag fa-sm"></i> parallel-programming</a>   <a href="/blog/category/gene-regulatory-networks"> <i class="fas fa-tag fa-sm"></i> gene-regulatory-networks</a>   </p> </header> <article class="post-content"> <p><em>Final project for COMS 4995 (Parallel Functional Programming, Fall 2022)</em>. Github repo <a href="https://github.com/wdas03/GRNPar" rel="external nofollow noopener" target="_blank">here</a>.</p> <h1 id="introduction">Introduction</h1> <p>Gene regulatory networks (GRNs) are graph-like representations of genes prone to activating or inhibiting the expression of other genes in a localized network. Boolean networks are often used to model GRNs—these networks consist of a series of nodes with connections between genes represented as boolean functions. Each node is a boolean variable that encodes its state (0 or 1). Each node’s state is determined by a boolean expression that takes as input the states of a subset of other nodes in the network. Researchers have developed algorithms for inferring these boolean expressions to model gene regulation activity.</p> <p>For our project, we implemented a parallelized algorithm for inferring gene regulatory networks from gene expression time-series data using the boolean network model. Specifically, we modified a state-of-the-art approach put forth by Barman &amp; Kwon (2017), which used a mutual information based approach coupled with a “swapping” subroutine to select dependent genes in the network and infer logical relations between input and output nodes.</p> <p>In particular, we implemented and parallelized: (1) a mutual information approach for inferring depenencies in a boolean network, (2) boolean expressions mapping input nodes to output nodes, optimizing for a “gene-wise dynamics consistency” criterion, and a (3) method for visualizing and graphing the inferred boolean network. We parallelized each step, and specifically optimized key operations in the computation of possible boolean expressions that satisfy the various gene expression interactions in the network, where we saw the most speed-up.</p> <h2 id="boolean-networks">Boolean Networks</h2> <p>The boolean network model G(V, A) proposed by Barman \&amp;\ Kwon consists of nodes: \(V = \{v_1, ..., v_n\}\) and a set of interactions, or directed edges between input and output nodes: \(A = \{(v_i, v_j) \mid v_i, v_j \in V\}\), where \(v_j\) is a target node whose state depends on that of \(v_i\).</p> <p>We further extend this model to account for boolean logic between the inferred input nodes and output nodes.</p> <h1 id="grnpar-algorithm">GRNPar Algorithm</h1> <h2 id="overview">Overview</h2> <p>We infer gene regulatory networks from time-series data by:</p> <ul> <li>First, finding the <em>k</em> input nodes with the highest mutual information in relation to every target node.</li> <li>Second, finding an optimal boolean expression that takes the <em>k</em> inferred input nodes with the highest dynamics criterion with respect to the target node. We choose the expression among a combination of \(2^{k-1}\) possible boolean expressions.</li> </ul> <p>We also plot the inferred network to visualize our results as a final feature.</p> <p>To determine the k most “closely related” input nodes for each node in the network, we used a mutual inference feature selection (MIFS) method based on entropy values (2.2.1). The testing of boolean expressions consists of finding possible boolean expressions which can be evaluated using the top <em>k</em> input nodes mapping to each target node, and choosing the one with highest gene-wise dynamics consistency (2.2.2).</p> <p>Let V = \(\{\mathbf{v_0}, \mathbf{v_1}, ..., \mathbf{v_n}\}\) where each vector \(\mathbf{v_i}\) corresponds to a gene and \(\mathbf{v_i}(t)\) corresponds to its value, 0 or 1, at time t.</p> <p><img src="/assets/img/posts/grnpar/Screenshot%202023-01-09%20at%206.49.38%20PM.png" width="1000" height="300"> <br></p> <p>v<sub>0</sub> in <em>getOptimalBoolExpressions</em> corresponds to a target node—given the network and connections generated, we iterate through each node and test for boolean expressions of its top <em>k</em> input nodes.</p> <p>Finally, we plot the network as a directed graph, and return the inferred network, optimal boolean expressions for each node, and the image.</p> <h2 id="criterions">Criterions</h2> <h3 id="mutual-information">Mutual Information</h3> <p>The mutual information metric used in Algorithm 2, \(I(X;Y)\), is based on the entropy of two variables. First, the entropy \(H(X)\) of a discrete random variable (gene) X is defined to measure the uncertainty of X over all time steps. A joint entropy \(H(X,Y)\) between \(X\) and \(Y\) measures the joint probability distribution between X and Y. The mutual information metric is then calculated based on these two entropy values. <br></p> \[\begin{gather*} H(X) = -\sum_{x \in X}(p(x) \log{p(x)}) \\ H(X,Y) = -\sum_{x \in X}\sum_{y \in Y}(p(x) \log{p(x)}) \\ I(X;Y) = H(X) + H(Y) - H(X,Y) \end{gather*}\] <h3 id="gene-wise-dynamics-consistency">Gene-wise Dynamics Consistency</h3> <p>Given the length of the time-series \(T\), and the observed and inferred boolean states of a node \(v\) and \(v'\) across a time-series, respectively, the <strong>gene-wise dynamics consistency</strong> is:</p> <p>\begin{equation} E(v, v’) = \dfrac{\sum\limits^{T}_{t=2} I(v(t) = v’(t))}{T-1} \end{equation}</p> <p>where \(I(v(t) = v'(t))\) here is equal to 1 if the condition \(v(t) = v'(t)\) is true, and 0 if false. \(v'(t)\) is obtained from a possible boolean expression that maps the inferred input nodes at time <em>t</em> with the target node at \(v'(t)\).</p> <p>In essence, this criterion exposes the proportion of nodes whose states are predicted correctly given a boolean expression that outputs \(v'(t)\) at every timestep in the series. We used this criterion to choose an optimal boolean expression that maps the states of inferred input nodes to a target node.</p> <h3 id="searchupdaterule">searchUpdateRule</h3> <p>The searchUpdateRule function in <strong>src/BDDUtils.hs</strong> we implemented is where we search for possible boolean expressions that can be evaluated using the top k input nodes for each target node.</p> <p>The authors from the original study included a second subroutine that iteratively swaps the selected <em>k</em> nodes with unselected nodes to see if different input nodes could yield higher dynamics consistency metrics—in their algorithm, the resulting number of input nodes could be less than or equal to <em>k</em>—whereas our implementation, due to time constraints, does not implement this swapping routine and selects a fixed <em>k</em> input nodes for each target node.</p> <p>The essence of their swapping routine was a “search_update_rule” that searched through possible boolean expressions between the selected input nodes and updated the rule for each target node with the boolean expression that yielded the highest dynamics consistency. Our implementation of this lies in <em>getOptimalBoolExpressions</em> (Algorithm 3).</p> <p><img src="/assets/img/posts/grnpar/Screenshot%202023-01-09%20at%206.49.57%20PM.png" width="1000" height="500"> <br> <img src="/assets/img/posts/grnpar/Screenshot%202023-01-09%20at%206.50.10%20PM.png" width="1000" height="300"> <br></p> <h1 id="haskell-implementation">Haskell Implementation</h1> <h2 id="data-types">Data Types</h2> <h3 id="nodestate">NodeState</h3> <p><em>NodeState</em> represents the states of each node across the time-series. It consists of a <em>String</em> attribute as the name of the node/gene, and an [<em>Int</em>] to represent the boolean states/expression of that particular node across the time-series from time 1..<em>T</em>, where <em>T</em> is the length of the time-series.</p> <h3 id="booledge">BoolEdge</h3> <p><em>BoolEdge</em> consists of two <em>NodeState</em> attributes—\(v\_i\) and \(v\_j\), which represents a directed edge dependency in the network from node \(v\_i\) to \(v\_j\).</p> <h3 id="boolnetwork">BoolNetwork</h3> <p><em>BoolNetwork</em> represents a boolean network as a directed graph. It contains a an attribute of [<em>NodeState</em>] consisting of the different nodes and their states across the time series, and an attribute of [<em>BoolEdge</em>] to represented the directed edges.</p> <h3 id="bdd">BDD</h3> <p><em>BDD</em> is a recursive data type similar to a binary decision diagram. We created a variation to represent and evaluate boolean expressions. <em>BDD</em> consists of several different states:</p> <ul> <li> <em>Name String</em>: Represents the name of a particular boolean variable.</li> <li> <em>State Int</em>: Represents the state, 1 or 0, of a particular boolean variable.</li> <li> <em>AND BDD BDD</em>: Represents an AND logical operation between two <em>BDD</em> types.</li> <li> <em>OR BDD BDD</em>: Represents an OR logical operation between two <em>BDD</em> types.</li> <li> <em>XOR BDD BDD</em>: Represents an XOR logical operation between two <em>BDD</em> types.</li> <li> <em>NOT BDD</em>: Represents a NOT operation to be applied to a <em>BDD</em>.</li> </ul> <p>The idea with <em>BDD</em> is to map out a boolean expression specifying variable names, and supply a [<em>(String, Int)</em>] which consists of Int boolean values for each variable name to a <em>BDD</em> data type that can evaluate the expression—<em>evaluateFunc</em> in <strong>src/BDDUtils.hs</strong> performs this task, like so:</p> <div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- Define a boolean expression with variable names x, y, a, z:</span>
+<span class="n">f</span> <span class="o">=</span> <span class="kt">XOR</span> <span class="p">(</span><span class="kt">AND</span> <span class="p">(</span><span class="kt">Name</span> <span class="s">"x"</span><span class="p">)</span> <span class="p">(</span><span class="kt">OR</span> <span class="p">(</span><span class="kt">Name</span> <span class="s">"y"</span><span class="p">)</span> <span class="p">(</span><span class="kt">Name</span> <span class="s">"a"</span><span class="p">)))</span> <span class="p">(</span><span class="kt">NOT</span> <span class="p">(</span><span class="kt">Name</span> <span class="s">"z"</span><span class="p">))</span>
+
+<span class="c1">-- Evaluate function by supplying values for each variable:</span>
+<span class="n">fromEnum</span> <span class="o">$</span> <span class="n">evaluateFunc</span> <span class="n">f</span> <span class="p">[(</span><span class="s">"x"</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="s">"y"</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="s">"a"</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="s">"z"</span><span class="p">,</span> <span class="mi">1</span><span class="p">)]</span>
+</code></pre></div></div> <p>This outputs 1 when evaluated. For simplicity, based on the original algorithm, we only look at a combination of conjunctive and disjunctive operations (AND/OR) evaluated using the the top <em>k</em> input nodes, sorted in descending order based on each node’s mutual information in relation to the target node.</p> <h2 id="generating-random-time-series-data">Generating Random Time-Series Data</h2> <p>We generate random time series gene expression data in <strong>src/generate_data.py</strong>, which takes as input the number of nodes and timesteps—boolean states are randomly generated at each timestep.</p> <h1 id="code-analysis">Code Analysis</h1> <h2 id="mutual-information-1">Mutual Information</h2> <p>First, we find the top k input nodes for each node in genBoolEdgesSeq, combining it into one list of <em>BoolEdge</em> and creating a <em>BoolNetwork</em> with the observed nodeStates and all of the generated BoolEdge connections (set of interactions).</p> <div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">genNetworkSeq</span> <span class="o">::</span> <span class="p">[</span><span class="kt">NodeState</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="kt">Int</span> <span class="o">-&gt;</span> <span class="kt">BoolNetwork</span>
+<span class="n">genNetworkSeq</span> <span class="n">nodeStates</span> <span class="n">k</span> <span class="o">=</span> <span class="kt">BoolNetwork</span> <span class="n">nodeStates</span> <span class="p">(</span><span class="n">combineEdgesSeq</span> <span class="n">nodeStates</span> <span class="n">k</span><span class="p">)</span>
+
+<span class="n">combineEdgesSeq</span> <span class="o">::</span> <span class="p">[</span><span class="kt">NodeState</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="kt">Int</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">BoolEdge</span><span class="p">]</span>
+<span class="n">combineEdgesSeq</span> <span class="n">nodeStates</span> <span class="n">k</span> <span class="o">=</span> <span class="n">concatMap</span> <span class="p">(</span><span class="n">genBoolEdgesSeq</span> <span class="n">nodeStates</span> <span class="n">k</span><span class="p">)</span> <span class="n">nodeStates</span>
+
+<span class="n">genBoolEdgesSeq</span> <span class="o">::</span> <span class="p">[</span><span class="kt">NodeState</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="kt">Int</span> <span class="o">-&gt;</span> <span class="kt">NodeState</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">BoolEdge</span><span class="p">]</span>
+<span class="n">genBoolEdgesSeq</span> <span class="n">nodeStates</span> <span class="n">k</span> <span class="n">targetNode</span> <span class="o">=</span> 
+<span class="kr">let</span> <span class="n">topKMutual</span> <span class="o">=</span> <span class="n">getMutualInfoSeq</span> <span class="n">targetNode</span> <span class="p">(</span><span class="n">filter</span> <span class="p">(</span><span class="o">/=</span> <span class="n">targetNode</span><span class="p">)</span> <span class="n">nodeStates</span><span class="p">)</span> <span class="n">k</span>
+<span class="kr">in</span> <span class="n">map</span> <span class="p">(`</span><span class="kt">BoolEdge</span><span class="p">`</span> <span class="n">targetNode</span><span class="p">)</span> <span class="n">topKMutual</span>
+</code></pre></div></div> <h2 id="extracting-optimal-boolean-expressions">Extracting Optimal Boolean Expressions</h2> <p>Next, we determine the optimal boolean expressions (<strong>getOptimalBoolExpressions - line 223 BDDUtils.hs</strong>) for each input node. Using the boolNetwork and top k connections generated for each node, we generate a set of \(2^{k-1}\) possible boolean expressions and use each expression to infer a time-series to compare with the observed expressions of each node and calculate the gene-wise dynamics consistency (searchUpdateRule - line 169 BDDUtil.hs).</p> <p>For each boolean expression, we take the state of each target node from time 2 to time T, and infer its value at every timestep t by evaluating the expression using the states of the selected k input nodes at time t-1. Using the inferred time series expression for the target node, we compare it with observed time series expression for the target node, and calculate the dynamics consistency. We choose the boolean expression that maximizes the genewise dynamics consistency for each target node, and assign that expression to it.</p> <p>Lastly, we plot the BoolNetwork using the Data.Graph.DGraph library and graphviz library.</p> <div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plotBoolNetworkPng</span> <span class="o">::</span> <span class="kt">BoolNetwork</span> <span class="o">-&gt;</span> <span class="kt">FilePath</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="o">-&gt;</span> <span class="kt">IO</span> <span class="kt">FilePath</span>
+<span class="n">plotBoolNetworkPng</span> <span class="n">network</span> <span class="n">fname</span> <span class="n">labelEdges</span> <span class="o">=</span> <span class="n">plotDGPng</span> <span class="n">networkDG</span> <span class="n">fname</span> <span class="n">labelEdges</span>
+<span class="kr">where</span>
+    <span class="n">networkDG</span> <span class="o">=</span> <span class="n">boolNetworkToDG</span> <span class="n">network</span> <span class="n">labelEdges</span>
+</code></pre></div></div> <p><img src="/assets/img/posts/grnpar/Screenshot%202023-01-09%20at%209.52.40%20PM.png"> <br> <em>Figure 1: Sequential program for a randomized sample where 300 nodes are generated for 300 time steps and k=5.</em></p> <h1 id="parallel-solution">Parallel Solution</h1> <p>We used <strong>genNetworkPar, getOptimalBoolExpressionsPar, and plotBoolNetworkPngPar</strong> in <strong>Main.hs</strong> to run parallel strategies. We made NFData instances for <strong>NodeState, BoolEdge, and BoolNetwork</strong> to perform these computations.</p> <p>There are three layers of parallelism applied to the implementation to improve the performance of the program. The first layer uses the <strong>parMap deepSeq</strong> functions from the package <strong>Control.Parallel.Strategies</strong>. The second and third layer use parBuffer and parChunkList, respectively.</p> <p>We used <strong>parMap rdeepseq</strong> to parallelize map computations. We used <strong>parMap</strong> to combine the results of generating the top <em>k</em> connections into one list, shown in the new <strong>combineEdgesPar</strong> function in <strong>GRNPar.hs</strong>. Similarly, when parsing through all the possible nodes to determine the top k nodes based on mutual information, we applied <strong>parMap rdeepseq</strong> and ran the calculations in parallel.</p> <div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">allMutualInfo</span> <span class="o">=</span> 
+    <span class="n">map</span> <span class="p">(</span><span class="nf">\</span><span class="n">inp</span> <span class="o">-&gt;</span> 
+        <span class="p">(</span><span class="n">inp</span><span class="p">,</span> <span class="n">mutualInformation</span> <span class="p">(</span><span class="n">timeStates</span> <span class="n">inp</span><span class="p">)</span> <span class="p">(</span><span class="n">timeStates</span> <span class="n">targetNode</span><span class="p">)</span>
+        <span class="o">-</span> <span class="n">sum</span> <span class="p">(</span><span class="n">parMap</span> <span class="n">rdeepseq</span> <span class="p">(</span><span class="n">mutualInformation</span> <span class="p">(</span><span class="n">timeStates</span> <span class="n">inp</span><span class="p">)</span> <span class="o">.</span> <span class="n">timeStates</span><span class="p">)</span> 
+            <span class="o">$</span> <span class="n">map</span> <span class="n">fst</span> <span class="n">regNodes</span><span class="p">)))</span> <span class="n">inpNodes</span> <span class="p">`</span><span class="n">using</span><span class="p">`</span> <span class="n">parBuffer</span> <span class="mi">3</span> <span class="n">rdeepseq</span>
+</code></pre></div></div> <p>Here, we use <strong>parBuffer</strong> to iterate through the input nodes and calculate mutual information.</p> <p><img src="/assets/img/posts/grnpar/Screenshot%202023-01-09%20at%209.52.52%20PM.png"> <br> <em>Figure 2. Parallel program for a randomized sample where 300 nodes are generated for 300 time steps and k=5.</em></p> <p>Figure 2 shows the eventlog when running parallel on a randomly generated time-series containing 300 nodes and 300 timesteps. The test was run on 4 cores with k = 5. The average runtime was 33.9 seconds.</p> <h1 id="performance-analysis">Performance Analysis</h1> <h2 id="results">Results</h2> <h3 id="real-world-datasets">Real-world Datasets</h3> <p>We tested GRNPar with three real gene expression datasets: an E. coli network with 10 genes and 20 timesteps, an Insilico E.coli network with 100 genes and 20 timesteps, and a fission yeast cell cycle network with 10 genes and 10 timesteps. We discretized the InSilico data using a rudimentary KMeans clustering algorithm, and the other datasets had been discretized to boolean states using KMeans clustering prior by Barman &amp; Kwon.</p> <p>We ran the Insilico E. coli dataset through GRNPar, only generating the network without computing expressions or outputting an image, both in parallel and sequentially—the results are shown in Figure 3. There was a 2.16x speedup in total time and 2.25x reduction in mutator time from the sequential to parallel run.</p> <p><img src="/assets/img/posts/grnpar/Screenshot%202023-01-09%20at%209.53.12%20PM.png"> <br> <em>Figure 3. Sequential (left) and Parallel (right) program for GRNPar on Insilico E. coli Dataset using 4 cores. k = 8.</em></p> <p>When running the Insilico data through GRNPar, there was an extra period for generating the image, in both the sequential and parallel versions of the algorithm. This is seen in the extra time taken to complete the algorithm in Figure 4. In both the sequential and parallel algorithms, it took 1.5 seconds extra to run as compared with the runs when the graph image was not generated.</p> <p>The graph generated for the Insilico set is shown in figure 5. There is a tendency for the central nodes to be in the center of the graph, as they have more dependencies. Figure 6 shows the graphs generated by testing GRNPar on the other E. coli dataset and fission yeast cell cycle network-similar to the Insilico set, we observe 3.33x speedup between the sequential and parallel usage of GRNPar.</p> <p><img src="/assets/img/posts/grnpar/Screenshot%202023-01-09%20at%209.53.57%20PM.png"> <br> <em>Figure 4. Generation of network + plotting image -&gt; both the sequential (left) and parallel (right) implementation took ~1.5 extra seconds, compared to Figure 3.</em></p> <p><img src="/assets/img/posts/grnpar/Screenshot%202023-01-09%20at%209.54.10%20PM.png"> <br> <em>Figure 5. Boolean Network Inferred for InSilico Ecoli Protein Trajectories</em></p> <p><img src="/assets/img/posts/grnpar/Screenshot%202023-01-09%20at%209.54.49%20PM.png"> <br> <em>Figure 6. E. coli gene regulatory network(left) \&amp;\ a fission yeast cell cycle network (right).</em></p> <h3 id="randomly-generated-data">Randomly Generated Data</h3> <p>We also analyzed how changing the number of nodes (genes), cores, and k-values affected performance of GRNPar on randomly generated time-series expression data. Figure 8 shows three tables worth of runtime data. In Table 1, as the number of nodes (genes) increases, the runtime for sequential GRNPar increases at a much larger rate than parallel GRNPar. However, when compared with the parallel runtime in Table 2 (Figure 8), the sequential runtime increases as the number of cores increases, since unnecessary garbage collection occurs during the sequential run as more cores are added on.</p> <p><img src="/assets/img/posts/grnpar/Screenshot%202023-01-09%20at%209.55.03%20PM.png"> <br> <em>Figure 7. Randomly Generated Data: 500 Nodes over 300 time steps (4 cores) in a sequential and parallel method.</em></p> <p><img src="/assets/img/posts/grnpar/Screenshot%202023-01-09%20at%209.55.13%20PM.png"> <br> <em>From left to right, Table 1, 2, 3. Table 1: Change in runtime for a parallel and sequential implementation as the number of nodes increases. Table 2: Change in runtime for a parallel and sequential implementation as the number of cores increases. Table 3: Change in runtime for a parallel and sequential implementation as the k value increases.</em></p> <h2 id="running-grnpar">Running GRNPar</h2> <p>This program takes in five arguments:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>stack exec GRNPar-exe &lt;csvFilename&gt; &lt;k&gt; &lt;genExpressions&gt; &lt;genImage&gt; &lt;mode&gt;
+</code></pre></div></div> <p>Specific implementation details can be found in the README. The output of the program is a .png file that has the boolean network mapped out in src/output_files.</p> <h1 id="references">References</h1> <p>Barman S, Kwon YK (2017) A novel mutual information-based Boolean network inference method from time-series gene expression data. PLOS ONE 12(2): e0171097.\https://doi.org/10.1371/journal.pone.0171097</p> <p>Prill RJ, Marbach D, Saez-Rodriguez J, Sorger PK, Alexopoulos LG, Xue X, et al. Towards a Rigorous Assessment of Systems Biology Models: The DREAM3 Challenges. PLOS One.</p> <h1 id="code-listing">Code Listing</h1> <h2 id="appmainhs">app/Main.hs</h2> <div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">{-
+Main application program: 
+-}</span>
+
+<span class="kr">module</span> <span class="nn">Main</span> <span class="p">(</span><span class="nf">main</span><span class="p">)</span> <span class="kr">where</span>
+
+<span class="kr">import</span> <span class="nn">System.IO</span> <span class="p">()</span>
+<span class="kr">import</span> <span class="nn">System.Environment</span> <span class="p">(</span><span class="nf">getArgs</span><span class="p">)</span>
+<span class="kr">import</span> <span class="nn">Control.Monad</span>
+
+<span class="kr">import</span> <span class="nn">GRNPar</span> <span class="p">(</span><span class="nf">genNetworkSeq</span><span class="p">,</span> <span class="nf">genNetworkPar</span><span class="p">)</span>
+<span class="kr">import</span> <span class="nn">GraphUtils</span> <span class="p">(</span><span class="nf">plotBoolNetworkPng</span><span class="p">,</span> <span class="nf">plotBoolNetworkPngPar</span><span class="p">,</span> <span class="kt">NodeState</span><span class="p">(</span><span class="o">..</span><span class="p">))</span>
+<span class="kr">import</span> <span class="nn">BDDUtils</span> <span class="p">(</span><span class="nf">getOptimalBoolExpressions</span><span class="p">,</span> <span class="nf">getOptimalBoolExpressionsPar</span><span class="p">)</span>
+<span class="kr">import</span> <span class="nn">ProcessData</span> <span class="p">(</span><span class="nf">csvToNodeStates</span><span class="p">)</span>
+
+<span class="kr">import</span> <span class="nn">Control.DeepSeq</span>
+
+<span class="cm">{-
+Main script: 
+    1. Infer + generate boolean network from input file
+    2. Determine optimal boolean expression
+    3. Output network to png file
+
+Usage: GRNPar-exe &lt;csvFilename&gt; &lt;k&gt; &lt;outputFile&gt; &lt;genExpressions&gt; &lt;genImage&gt; &lt;mode&gt;
+-}</span>
+<span class="n">main</span> <span class="o">::</span> <span class="kt">IO</span> <span class="nb">()</span>
+<span class="n">main</span> <span class="o">=</span> <span class="kr">do</span>
+    <span class="n">args</span> <span class="o">&lt;-</span> <span class="n">getArgs</span>
+    <span class="kr">case</span> <span class="n">args</span> <span class="kr">of</span> 
+        <span class="p">[</span><span class="n">fname</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">genExpressions</span><span class="p">,</span> <span class="n">genImage</span><span class="p">,</span> <span class="n">mode</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="kr">do</span>
+                <span class="n">putStrLn</span> <span class="n">fname</span>
+                <span class="n">putStrLn</span> <span class="s">"Parsing data..."</span>
+                <span class="n">nodeStates</span><span class="o">@</span><span class="p">(</span><span class="n">x</span><span class="o">:</span><span class="kr">_</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="n">csvToNodeStates</span> <span class="n">fname</span> <span class="mi">1</span>
+                
+                <span class="c1">-- Generate network with dependencies</span>
+                <span class="kr">let</span> <span class="n">k'</span>         <span class="o">=</span> <span class="n">read</span> <span class="n">k</span> <span class="o">::</span> <span class="kt">Int</span>
+                    <span class="n">timeLength</span> <span class="o">=</span> <span class="n">length</span> <span class="o">$</span> <span class="n">timeStates</span> <span class="n">x</span>
+                    <span class="n">network</span>    <span class="o">=</span> <span class="kr">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s">"par"</span> 
+                                    <span class="kr">then</span> <span class="n">force</span> <span class="o">$</span> <span class="n">genNetworkPar</span> <span class="n">nodeStates</span> <span class="n">k'</span>
+                                    <span class="kr">else</span> <span class="n">force</span> <span class="o">$</span> <span class="n">genNetworkSeq</span> <span class="n">nodeStates</span> <span class="n">k'</span>
+                <span class="n">putStrLn</span> <span class="s">"Generated network."</span>
+
+                <span class="n">when</span> <span class="p">(</span><span class="n">genExpressions</span> <span class="o">==</span> <span class="s">"1"</span><span class="p">)</span> <span class="o">$</span> <span class="kr">do</span>
+                    <span class="c1">-- Get optimal boolean expressions for each node</span>
+                    <span class="kr">let</span> <span class="n">optimalExpressions</span> <span class="o">=</span> <span class="kr">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s">"par"</span> 
+                                                <span class="kr">then</span> <span class="n">force</span> <span class="o">$</span> <span class="n">getOptimalBoolExpressionsPar</span> <span class="n">network</span> <span class="n">timeLength</span>
+                                                <span class="kr">else</span> <span class="n">force</span> <span class="o">$</span> <span class="n">getOptimalBoolExpressions</span> <span class="n">network</span> <span class="n">timeLength</span>
+                    <span class="n">putStrLn</span> <span class="s">"Optimal boolean expressions for each variable:"</span>
+                    <span class="n">mapM_</span> <span class="p">(</span><span class="nf">\</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">putStrLn</span> <span class="o">$</span> <span class="n">name</span> <span class="n">n</span> <span class="o">++</span> <span class="s">" = "</span> <span class="o">++</span> <span class="n">show</span> <span class="n">b</span> <span class="o">++</span> <span class="s">". Gene-wise consistency: "</span> <span class="o">++</span> <span class="n">show</span> <span class="n">c</span><span class="p">)</span> <span class="n">optimalExpressions</span>
+                    <span class="c1">--print optimalExpressions</span>
+
+                <span class="n">when</span> <span class="p">(</span><span class="n">genImage</span> <span class="o">==</span> <span class="s">"1"</span><span class="p">)</span> <span class="o">$</span> <span class="kr">do</span>
+                    <span class="c1">-- Print image</span>
+                    <span class="kr">let</span> <span class="n">outputFile</span> <span class="o">=</span> <span class="s">"src/output_files/"</span> <span class="o">++</span> <span class="n">substring</span> <span class="p">(</span><span class="n">length</span> <span class="s">"src/data/"</span><span class="p">)</span> <span class="p">(</span><span class="n">length</span> <span class="n">fname</span> <span class="o">-</span> <span class="mi">4</span><span class="p">)</span> <span class="n">fname</span>
+                    <span class="n">print</span> <span class="n">outputFile</span>
+                    <span class="n">imgFilepath</span> <span class="o">&lt;-</span> <span class="kr">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s">"par"</span>
+                                    <span class="kr">then</span> <span class="n">plotBoolNetworkPngPar</span> <span class="n">network</span> <span class="n">outputFile</span> <span class="kt">False</span>
+                                    <span class="kr">else</span> <span class="n">plotBoolNetworkPng</span> <span class="n">network</span> <span class="n">outputFile</span> <span class="kt">False</span>
+                    <span class="n">putStrLn</span> <span class="o">$</span> <span class="s">"Printed to "</span> <span class="o">++</span> <span class="n">imgFilepath</span> <span class="o">++</span> <span class="s">"."</span>
+
+                <span class="n">putStrLn</span> <span class="s">"Finished."</span>
+        <span class="kr">_</span>       <span class="o">-&gt;</span> <span class="n">putStrLn</span> <span class="s">"Usage: GRNPar-exe &lt;csvFilename&gt; &lt;k&gt; &lt;outputFile&gt; &lt;genExpressions&gt; &lt;genImage&gt; &lt;mode&gt;"</span>
+
+<span class="n">substring</span> <span class="o">::</span> <span class="kt">Int</span> <span class="o">-&gt;</span> <span class="kt">Int</span> <span class="o">-&gt;</span> <span class="kt">String</span> <span class="o">-&gt;</span> <span class="kt">String</span>
+<span class="n">substring</span> <span class="n">x</span> <span class="n">y</span> <span class="n">s</span> <span class="o">=</span> <span class="n">take</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">x</span><span class="p">)</span> <span class="p">(</span><span class="n">drop</span> <span class="n">x</span> <span class="n">s</span><span class="p">)</span>
+</code></pre></div></div> <h2 id="srcgrnparhs">src/GRNPar.hs</h2> <div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">{-# LANGUAGE ParallelListComp #-}</span>
+
+<span class="kr">module</span> <span class="nn">GRNPar</span>
+    <span class="p">(</span> <span class="nf">genNetworkSeq</span>
+    <span class="p">,</span> <span class="nf">genNetworkPar</span>
+    <span class="p">)</span> <span class="kr">where</span>
+
+
+<span class="kr">import</span> <span class="nn">Control.Monad</span> <span class="p">()</span>
+
+<span class="kr">import</span> <span class="k">qualified</span> <span class="nn">Data.Map</span> <span class="k">as</span> <span class="n">Map</span>
+<span class="kr">import</span> <span class="nn">Data.Ord</span> <span class="p">(</span><span class="nf">comparing</span><span class="p">)</span>
+<span class="kr">import</span> <span class="nn">Data.List</span> <span class="p">(</span><span class="nf">maximumBy</span><span class="p">,</span> <span class="nf">sortBy</span><span class="p">)</span>
+
+<span class="kr">import</span> <span class="nn">GraphUtils</span> <span class="p">(</span><span class="kt">NodeState</span><span class="p">(</span><span class="o">..</span><span class="p">),</span> <span class="kt">BoolEdge</span><span class="p">(</span><span class="o">..</span><span class="p">),</span> <span class="kt">BoolNetwork</span><span class="p">(</span><span class="o">..</span><span class="p">))</span>
+
+<span class="kr">import</span> <span class="nn">Control.Parallel.Strategies</span> <span class="p">(</span><span class="nf">parMap</span><span class="p">,</span> <span class="nf">rdeepseq</span><span class="p">,</span> <span class="nf">parBuffer</span><span class="p">,</span> <span class="nf">using</span><span class="p">)</span>
+<span class="kr">import</span> <span class="nn">Control.DeepSeq</span> <span class="p">()</span>
+
+<span class="cm">{-
+-- Testing with sample nodes:
+x_1 :: NodeState
+x_1 = NodeState "x_1" [1, 1, 0, 0, 0, 1, 0, 1]
+
+x_2 :: NodeState
+x_2 = NodeState "x_2" [1, 0, 1, 0, 1, 0, 1, 0]
+
+x_3 :: NodeState
+x_3 = NodeState "x_3" [1, 0, 1, 0, 1, 0, 1, 0]
+
+x_4 :: NodeState
+x_4 = NodeState "x_4" [1, 0, 0, 0, 1, 0, 1, 1]
+
+x_5 :: NodeState
+x_5 = NodeState "x_5" [1, 0, 1, 0, 0, 0, 0, 0]
+
+x_6 :: NodeState
+x_6 = NodeState "x_6" [1, 1, 0, 0, 1, 1, 1, 0]
+
+sampleNodes :: [NodeState]
+sampleNodes = [x_1,x_2,x_3,x_4,x_5,x_6]
+-}</span>
+
+<span class="cm">{-
+Parallel pipeline for inferring boolean network given NodeState data.
+-}</span>
+<span class="n">genNetworkPar</span> <span class="o">::</span> <span class="p">[</span><span class="kt">NodeState</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="kt">Int</span> <span class="o">-&gt;</span> <span class="kt">BoolNetwork</span>
+<span class="n">genNetworkPar</span> <span class="n">nodeStates</span> <span class="n">k</span> <span class="o">=</span> <span class="kt">BoolNetwork</span> <span class="n">nodeStates</span> <span class="p">(</span><span class="n">combineEdgesPar</span> <span class="n">nodeStates</span> <span class="n">k</span><span class="p">)</span>
+
+<span class="cm">{-
+Sequential pipeline for inferring boolean network given NodeState data.
+-}</span>
+<span class="n">genNetworkSeq</span> <span class="o">::</span> <span class="p">[</span><span class="kt">NodeState</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="kt">Int</span> <span class="o">-&gt;</span> <span class="kt">BoolNetwork</span>
+<span class="n">genNetworkSeq</span> <span class="n">nodeStates</span> <span class="n">k</span> <span class="o">=</span> <span class="kt">BoolNetwork</span> <span class="n">nodeStates</span> <span class="p">(</span><span class="n">combineEdgesSeq</span> <span class="n">nodeStates</span> <span class="n">k</span><span class="p">)</span>
+
+<span class="cm">{-
+Combine all BoolEdge connections for each target node into one array.
+-}</span>
+<span class="n">combineEdgesSeq</span> <span class="o">::</span> <span class="p">[</span><span class="kt">NodeState</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="kt">Int</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">BoolEdge</span><span class="p">]</span>
+<span class="n">combineEdgesSeq</span> <span class="n">nodeStates</span> <span class="n">k</span> <span class="o">=</span> <span class="n">concatMap</span> <span class="p">(</span><span class="n">genBoolEdgesSeq</span> <span class="n">nodeStates</span> <span class="n">k</span><span class="p">)</span> <span class="n">nodeStates</span>
+
+<span class="cm">{- 
+Generate BoolEdge connections in network given NodeState and a targetNode
+-}</span>
+<span class="n">genBoolEdgesSeq</span> <span class="o">::</span> <span class="p">[</span><span class="kt">NodeState</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="kt">Int</span> <span class="o">-&gt;</span> <span class="kt">NodeState</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">BoolEdge</span><span class="p">]</span>
+<span class="n">genBoolEdgesSeq</span> <span class="n">nodeStates</span> <span class="n">k</span> <span class="n">targetNode</span> <span class="o">=</span> 
+<span class="kr">let</span> <span class="n">topKMutual</span> <span class="o">=</span> <span class="n">getMutualInfoSeq</span> <span class="n">targetNode</span> <span class="p">(</span><span class="n">filter</span> <span class="p">(</span><span class="o">/=</span> <span class="n">targetNode</span><span class="p">)</span> <span class="n">nodeStates</span><span class="p">)</span> <span class="n">k</span>
+<span class="kr">in</span> <span class="n">map</span> <span class="p">(`</span><span class="kt">BoolEdge</span><span class="p">`</span> <span class="n">targetNode</span><span class="p">)</span> <span class="n">topKMutual</span>
+
+<span class="n">combineEdgesPar</span> <span class="o">::</span> <span class="p">[</span><span class="kt">NodeState</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="kt">Int</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">BoolEdge</span><span class="p">]</span>
+<span class="n">combineEdgesPar</span> <span class="n">nodeStates</span> <span class="n">k</span> <span class="o">=</span> <span class="n">concat</span> <span class="o">$</span> <span class="n">parMap</span> <span class="n">rdeepseq</span> <span class="p">(</span><span class="n">genBoolEdgesPar</span> <span class="n">nodeStates</span> <span class="n">k</span><span class="p">)</span> <span class="n">nodeStates</span>
+
+<span class="n">genBoolEdgesPar</span> <span class="o">::</span> <span class="p">[</span><span class="kt">NodeState</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="kt">Int</span> <span class="o">-&gt;</span> <span class="kt">NodeState</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">BoolEdge</span><span class="p">]</span>
+<span class="n">genBoolEdgesPar</span> <span class="n">nodeStates</span> <span class="n">k</span> <span class="n">targetNode</span> <span class="o">=</span> <span class="n">map</span> <span class="p">(`</span><span class="kt">BoolEdge</span><span class="p">`</span> <span class="n">targetNode</span><span class="p">)</span> <span class="n">topKMutual</span>
+<span class="kr">where</span>
+    <span class="n">topKMutual</span> <span class="o">=</span> <span class="n">getMutualInfoPar</span> <span class="n">targetNode</span> <span class="p">(</span><span class="n">filter</span> <span class="p">(</span><span class="o">/=</span> <span class="n">targetNode</span><span class="p">)</span> <span class="n">nodeStates</span><span class="p">)</span> <span class="n">k</span> 
+
+<span class="cm">{-
+Get top k input nodes with the highest mutual information relative to a target node.
+
+Return input nodes sorted descending based on mutual information with target node.
+
+* inputNodes should not contain targetNode when calling getMutualInfo
+-}</span>
+<span class="n">getMutualInfoSeq</span> <span class="o">::</span> <span class="kt">NodeState</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">NodeState</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="kt">Int</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">NodeState</span><span class="p">]</span>
+<span class="n">getMutualInfoSeq</span> <span class="n">targetNode</span> <span class="n">inputNodes</span> <span class="n">k</span> <span class="o">=</span> <span class="n">map</span> <span class="n">fst</span> 
+                                        <span class="o">$</span> <span class="n">sortBy</span> <span class="p">(</span><span class="n">flip</span> <span class="p">(</span><span class="n">comparing</span> <span class="n">snd</span><span class="p">))</span> 
+                                        <span class="o">$</span> <span class="n">getMutualInfo'</span> <span class="p">[</span><span class="n">maxMutualNodeInfo</span><span class="p">]</span> 
+                                        <span class="p">(</span><span class="n">filter</span> <span class="p">(</span><span class="o">/=</span> <span class="n">maxMutual</span><span class="p">)</span> <span class="n">inputNodes</span><span class="p">)</span> <span class="n">k</span>
+<span class="kr">where</span>
+    <span class="n">maxMutualNodeInfo</span><span class="o">@</span><span class="p">(</span><span class="n">maxMutual</span><span class="p">,</span> <span class="kr">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">maximumBy</span> <span class="p">(</span><span class="n">comparing</span> <span class="n">snd</span><span class="p">)</span> 
+                                    <span class="o">$</span> <span class="n">map</span> <span class="p">(</span><span class="nf">\</span><span class="n">inp</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">inp</span><span class="p">,</span> <span class="n">mutualInformation</span> <span class="p">(</span><span class="n">timeStates</span> <span class="n">inp</span><span class="p">)</span> <span class="p">(</span><span class="n">timeStates</span> <span class="n">targetNode</span><span class="p">)))</span> <span class="n">inputNodes</span>
+    <span class="n">getMutualInfo'</span> <span class="o">::</span> <span class="p">[(</span><span class="kt">NodeState</span><span class="p">,</span> <span class="kt">Double</span><span class="p">)]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">NodeState</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="kt">Int</span> <span class="o">-&gt;</span> <span class="p">[(</span><span class="kt">NodeState</span><span class="p">,</span> <span class="kt">Double</span><span class="p">)]</span>
+    <span class="n">getMutualInfo'</span> <span class="n">regNodes</span> <span class="n">inpNodes</span> <span class="n">k'</span> <span class="c1">-- regNodes -&gt; regulatory nodes currently being examined</span>
+        <span class="o">|</span> <span class="n">length</span> <span class="n">regNodes</span> <span class="o">==</span> <span class="n">k'</span> <span class="o">=</span> <span class="n">regNodes</span>
+        <span class="o">|</span> <span class="n">otherwise</span>             <span class="o">=</span>
+        <span class="kr">let</span> <span class="n">newMaxInfo</span><span class="o">@</span><span class="p">(</span><span class="n">newMax</span><span class="p">,</span> <span class="kr">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">maximumBy</span> <span class="p">(</span><span class="n">comparing</span> <span class="n">snd</span><span class="p">)</span>
+                                    <span class="o">$</span> <span class="n">map</span> <span class="p">(</span><span class="nf">\</span><span class="n">inp</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">inp</span><span class="p">,</span> <span class="n">mutualInformation</span> <span class="p">(</span><span class="n">timeStates</span> <span class="n">inp</span><span class="p">)</span> <span class="p">(</span><span class="n">timeStates</span> <span class="n">targetNode</span><span class="p">)</span>
+                                                <span class="o">-</span> <span class="n">sum</span> <span class="p">(</span><span class="n">map</span> <span class="p">(</span><span class="n">mutualInformation</span> <span class="p">(</span><span class="n">timeStates</span> <span class="n">inp</span><span class="p">)</span> <span class="o">.</span> <span class="n">timeStates</span><span class="p">)</span> <span class="o">$</span> <span class="n">map</span> <span class="n">fst</span> <span class="n">regNodes</span><span class="p">)))</span> <span class="n">inpNodes</span>
+            <span class="n">newInpNodes</span>            <span class="o">=</span> <span class="n">filter</span> <span class="p">(</span><span class="o">/=</span> <span class="n">newMax</span><span class="p">)</span> <span class="n">inpNodes</span>
+            <span class="n">newRegNodes</span>            <span class="o">=</span> <span class="n">regNodes</span> <span class="o">++</span> <span class="p">[</span><span class="n">newMaxInfo</span><span class="p">]</span>
+        <span class="kr">in</span> <span class="n">getMutualInfo'</span> <span class="n">newRegNodes</span> <span class="n">newInpNodes</span> <span class="n">k'</span>
+
+<span class="n">getMutualInfoPar</span> <span class="o">::</span> <span class="kt">NodeState</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">NodeState</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="kt">Int</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">NodeState</span><span class="p">]</span>
+<span class="n">getMutualInfoPar</span> <span class="n">targetNode</span> <span class="n">inputNodes</span> <span class="n">k</span> <span class="o">=</span> <span class="n">map</span> <span class="n">fst</span> 
+                                        <span class="o">$</span> <span class="n">sortBy</span> <span class="p">(</span><span class="n">flip</span> <span class="p">(</span><span class="n">comparing</span> <span class="n">snd</span><span class="p">))</span> 
+                                        <span class="o">$</span> <span class="n">getMutualInfo'</span> <span class="p">[</span><span class="n">maxMutualNodeInfo</span><span class="p">]</span> 
+                                        <span class="p">(</span><span class="n">filter</span> <span class="p">(</span><span class="o">/=</span> <span class="n">maxMutual</span><span class="p">)</span> <span class="n">inputNodes</span><span class="p">)</span> <span class="n">k</span>
+<span class="kr">where</span>
+    <span class="n">mutualInfo'</span>                      <span class="o">=</span> <span class="n">map</span> <span class="p">(</span><span class="nf">\</span><span class="n">inp</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">inp</span><span class="p">,</span> <span class="n">mutualInformation</span> <span class="p">(</span><span class="n">timeStates</span> <span class="n">inp</span><span class="p">)</span> <span class="p">(</span><span class="n">timeStates</span> <span class="n">targetNode</span><span class="p">)))</span>
+                                            <span class="n">inputNodes</span> <span class="p">`</span><span class="n">using</span><span class="p">`</span> <span class="n">parBuffer</span> <span class="mi">3</span> <span class="n">rdeepseq</span>
+    <span class="n">maxMutualNodeInfo</span><span class="o">@</span><span class="p">(</span><span class="n">maxMutual</span><span class="p">,</span> <span class="kr">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">maximumBy</span> <span class="p">(</span><span class="n">comparing</span> <span class="n">snd</span><span class="p">)</span> <span class="n">mutualInfo'</span>
+    <span class="n">getMutualInfo'</span> <span class="o">::</span> <span class="p">[(</span><span class="kt">NodeState</span><span class="p">,</span> <span class="kt">Double</span><span class="p">)]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">NodeState</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="kt">Int</span> <span class="o">-&gt;</span> <span class="p">[(</span><span class="kt">NodeState</span><span class="p">,</span> <span class="kt">Double</span><span class="p">)]</span>
+    <span class="n">getMutualInfo'</span> <span class="n">regNodes</span> <span class="n">inpNodes</span> <span class="n">k'</span>
+        <span class="o">|</span> <span class="n">length</span> <span class="n">regNodes</span> <span class="o">==</span> <span class="n">k'</span> <span class="o">=</span> <span class="n">regNodes</span>
+        <span class="o">|</span> <span class="n">otherwise</span>             <span class="o">=</span>
+        <span class="kr">let</span> <span class="n">allMutualInfo</span>          <span class="o">=</span> <span class="n">map</span> <span class="p">(</span><span class="nf">\</span><span class="n">inp</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">inp</span><span class="p">,</span> <span class="n">mutualInformation</span> <span class="p">(</span><span class="n">timeStates</span> <span class="n">inp</span><span class="p">)</span> <span class="p">(</span><span class="n">timeStates</span> <span class="n">targetNode</span><span class="p">)</span>
+                                            <span class="o">-</span> <span class="n">sum</span> <span class="p">(</span><span class="n">parMap</span> <span class="n">rdeepseq</span> <span class="p">(</span><span class="n">mutualInformation</span> <span class="p">(</span><span class="n">timeStates</span> <span class="n">inp</span><span class="p">)</span> <span class="o">.</span> <span class="n">timeStates</span><span class="p">)</span> <span class="o">$</span> <span class="n">map</span> <span class="n">fst</span> <span class="n">regNodes</span><span class="p">)))</span> 
+                                            <span class="n">inpNodes</span> <span class="p">`</span><span class="n">using</span><span class="p">`</span> <span class="n">parBuffer</span> <span class="mi">3</span> <span class="n">rdeepseq</span>
+            <span class="n">newMaxInfo</span><span class="o">@</span><span class="p">(</span><span class="n">newMax</span><span class="p">,</span> <span class="kr">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">maximumBy</span> <span class="p">(</span><span class="n">comparing</span> <span class="n">snd</span><span class="p">)</span> <span class="n">allMutualInfo</span> 
+            <span class="n">newInpNodes</span>            <span class="o">=</span> <span class="n">filter</span> <span class="p">(</span><span class="o">/=</span> <span class="n">newMax</span><span class="p">)</span> <span class="n">inpNodes</span>
+            <span class="n">newRegNodes</span>            <span class="o">=</span> <span class="n">regNodes</span> <span class="o">++</span> <span class="p">[</span><span class="n">newMaxInfo</span><span class="p">]</span>
+        <span class="kr">in</span> <span class="n">getMutualInfo'</span> <span class="n">newRegNodes</span> <span class="n">newInpNodes</span> <span class="n">k'</span>
+
+<span class="c1">-- Compute the entropy of a list of numerical values</span>
+<span class="n">entropy</span> <span class="o">::</span> <span class="p">(</span><span class="kt">Ord</span> <span class="n">a</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="kt">Double</span>
+<span class="n">entropy</span> <span class="n">xs</span> <span class="o">=</span> <span class="n">sum</span> <span class="p">[</span> <span class="o">-</span><span class="n">p</span> <span class="o">*</span> <span class="n">logBase</span> <span class="mi">2</span> <span class="n">p</span> <span class="o">|</span> <span class="n">p</span> <span class="o">&lt;-</span> <span class="n">ps</span> <span class="p">]</span>
+<span class="kr">where</span>
+    <span class="n">counts</span> <span class="o">=</span> <span class="kt">Map</span><span class="o">.</span><span class="n">fromListWith</span> <span class="p">(</span><span class="o">+</span><span class="p">)</span> <span class="p">[(</span><span class="n">x</span><span class="p">,</span> <span class="mi">1</span> <span class="o">::</span> <span class="kt">Int</span><span class="p">)</span> <span class="o">|</span> <span class="n">x</span> <span class="o">&lt;-</span> <span class="n">xs</span><span class="p">]</span>
+    <span class="n">values</span> <span class="o">=</span> <span class="kt">Map</span><span class="o">.</span><span class="n">elems</span> <span class="n">counts</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="n">sum</span> <span class="n">values</span>
+    <span class="n">ps</span> <span class="o">=</span> <span class="p">[</span><span class="n">fromIntegral</span> <span class="n">v</span> <span class="o">/</span> <span class="n">fromIntegral</span> <span class="n">total</span> <span class="o">|</span> <span class="n">v</span> <span class="o">&lt;-</span> <span class="n">values</span><span class="p">]</span>
+
+<span class="c1">-- Compute the mutual information of discrete variables x and y</span>
+<span class="n">mutualInformation</span> <span class="o">::</span> <span class="p">(</span><span class="kt">Ord</span> <span class="n">a</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="kt">Double</span>
+<span class="n">mutualInformation</span> <span class="n">xs</span> <span class="n">ys</span> <span class="o">=</span> <span class="n">entropy</span> <span class="n">xs</span> <span class="o">+</span> <span class="n">entropy</span> <span class="n">ys</span> <span class="o">-</span> <span class="n">entropy</span> <span class="p">(</span><span class="n">zip</span> <span class="n">xs</span> <span class="n">ys</span><span class="p">)</span>
+</code></pre></div></div> <h2 id="srcgraphutilshs">src/GraphUtils.hs</h2> <div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">module</span> <span class="nn">GraphUtils</span>
+    <span class="p">(</span> <span class="kt">NodeState</span><span class="p">(</span><span class="o">..</span><span class="p">)</span>
+    <span class="p">,</span> <span class="kt">BoolEdge</span><span class="p">(</span><span class="o">..</span><span class="p">)</span>
+    <span class="p">,</span> <span class="kt">BoolNetwork</span><span class="p">(</span><span class="o">..</span><span class="p">)</span>
+    <span class="p">,</span> <span class="nf">plotBoolNetworkPng</span>
+    <span class="p">,</span> <span class="nf">plotBoolNetworkPngPar</span>
+    <span class="p">,</span> <span class="nf">plotDGPng</span>
+    <span class="p">)</span> <span class="kr">where</span>
+
+<span class="kr">import</span> <span class="nn">Data.GraphViz</span>
+<span class="kr">import</span> <span class="nn">Data.GraphViz.Attributes.Complete</span>
+<span class="kr">import</span> <span class="nn">Data.Hashable</span>
+
+<span class="kr">import</span> <span class="nn">Control.Parallel.Strategies</span> <span class="p">(</span><span class="nf">parListChunk</span><span class="p">,</span> <span class="nf">rdeepseq</span><span class="p">,</span> <span class="nf">using</span><span class="p">)</span>
+<span class="kr">import</span> <span class="nn">Control.DeepSeq</span> <span class="p">(</span> <span class="kt">NFData</span><span class="p">(</span><span class="o">..</span><span class="p">)</span> <span class="p">)</span>
+
+<span class="kr">import</span> <span class="k">qualified</span> <span class="nn">Data.Text.Lazy</span>    <span class="k">as</span> <span class="n">TL</span>
+<span class="kr">import</span> <span class="k">qualified</span> <span class="nn">Data.Graph.DGraph</span> <span class="k">as</span> <span class="n">DG</span>
+<span class="kr">import</span> <span class="k">qualified</span> <span class="nn">Data.Graph.Types</span>  <span class="k">as</span> <span class="n">GT</span>
+
+<span class="cm">{-
+Data types representing boolean states of genes and boolean network consisting of NodeStates and directed edges.
+
+- NodeState:
+    - name :: String -&gt; name of gene
+    - timeStates :: [Int] -&gt; expression of gene across time-series in order
+-}</span>
+
+<span class="kr">data</span> <span class="kt">NodeState</span> <span class="o">=</span> <span class="kt">NodeState</span> <span class="p">{</span> <span class="n">name</span> <span class="o">::</span> <span class="kt">String</span>
+                        <span class="p">,</span> <span class="n">timeStates</span> <span class="o">::</span> <span class="p">[</span><span class="kt">Int</span><span class="p">]</span> <span class="p">}</span> <span class="kr">deriving</span> <span class="p">(</span><span class="kt">Eq</span><span class="p">,</span> <span class="kt">Ord</span><span class="p">)</span>
+
+<span class="kr">instance</span> <span class="kt">Show</span> <span class="kt">NodeState</span> <span class="kr">where</span>
+    <span class="n">show</span> <span class="p">(</span><span class="kt">NodeState</span> <span class="n">n</span> <span class="kr">_</span><span class="p">)</span> <span class="o">=</span> <span class="n">n</span> 
+
+<span class="kr">instance</span> <span class="kt">NFData</span> <span class="kt">NodeState</span> <span class="kr">where</span>
+    <span class="n">rnf</span> <span class="p">(</span><span class="kt">NodeState</span> <span class="n">n</span> <span class="n">ts</span><span class="p">)</span> <span class="o">=</span> <span class="n">rnf</span> <span class="n">n</span> <span class="p">`</span><span class="n">seq</span><span class="p">`</span> <span class="n">rnf</span> <span class="n">ts</span>
+
+<span class="cm">{-
+- BoolEdge
+    - v_i :: NodeState -&gt; source node
+    - v_j :: NodeState -&gt; target node
+-}</span>
+<span class="kr">data</span> <span class="kt">BoolEdge</span> <span class="o">=</span> <span class="kt">BoolEdge</span> <span class="p">{</span> <span class="n">v_i</span> <span class="o">::</span> <span class="kt">NodeState</span>
+                        <span class="p">,</span> <span class="n">v_j</span> <span class="o">::</span> <span class="kt">NodeState</span> <span class="p">}</span> <span class="kr">deriving</span> <span class="p">(</span><span class="kt">Eq</span><span class="p">)</span>
+
+<span class="kr">instance</span> <span class="kt">Show</span> <span class="kt">BoolEdge</span> <span class="kr">where</span>
+    <span class="n">show</span> <span class="p">(</span><span class="kt">BoolEdge</span> <span class="n">i</span> <span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="s">"("</span> <span class="o">++</span> <span class="n">name</span> <span class="n">i</span> <span class="o">++</span> <span class="s">" -&gt; "</span> <span class="o">++</span> <span class="n">name</span> <span class="n">j</span> <span class="o">++</span> <span class="s">")"</span> 
+    
+<span class="kr">instance</span> <span class="kt">NFData</span> <span class="kt">BoolEdge</span> <span class="kr">where</span>
+    <span class="n">rnf</span> <span class="p">(</span><span class="kt">BoolEdge</span> <span class="n">i</span> <span class="n">j</span><span class="p">)</span> <span class="o">=</span> <span class="n">rnf</span> <span class="n">i</span> <span class="p">`</span><span class="n">seq</span><span class="p">`</span> <span class="n">rnf</span> <span class="n">j</span>
+
+<span class="cm">{-
+- BoolNetwork
+    - nodes :: [NodeState] -&gt; all nodes/genes in network
+    - connections :: [BoolEdge] -&gt; directed edges between genes
+-}</span>
+<span class="kr">data</span> <span class="kt">BoolNetwork</span> <span class="o">=</span> <span class="kt">BoolNetwork</span> <span class="p">{</span> <span class="n">nodes</span> <span class="o">::</span> <span class="p">[</span><span class="kt">NodeState</span><span class="p">]</span>
+                            <span class="p">,</span> <span class="n">connections</span> <span class="o">::</span> <span class="p">[</span><span class="kt">BoolEdge</span><span class="p">]</span> <span class="p">}</span> <span class="kr">deriving</span> <span class="p">(</span><span class="kt">Eq</span><span class="p">,</span> <span class="kt">Show</span><span class="p">)</span> 
+<span class="kr">instance</span> <span class="kt">NFData</span> <span class="kt">BoolNetwork</span> <span class="kr">where</span>
+    <span class="n">rnf</span> <span class="p">(</span><span class="kt">BoolNetwork</span> <span class="n">n</span> <span class="n">c</span><span class="p">)</span> <span class="o">=</span> <span class="n">rnf</span> <span class="n">n</span> <span class="p">`</span><span class="n">seq</span><span class="p">`</span> <span class="n">rnf</span> <span class="n">c</span> 
+
+<span class="cm">{-
+Modified from graphite lib source code:
+- Functions for plotting directed graph and BoolNetwork to png file
+- graphviz needs to be installed on local machine to see output: 
+    - brew install graphviz
+        OR
+    - sudo apt install graphviz
+
+Example: Plot DGraph foundationUniverse to "foundation.png"
+
+foundationUniverse :: DG.DGraph String Double
+foundationUniverse = DG.fromArcsList
+    [ GT.Arc "Helicon" "Nishaya" 200.00
+    , GT.Arc "Helicon" "Wencory" 382.20
+    , GT.Arc "Nishaya" "Wencory" 820.32
+    ]
+
+plotDGraphPng foundationUniverse "foundation"
+
+-}</span>
+<span class="c1">-- Plot a BoolNetwork to png file</span>
+<span class="n">boolNetworkToDG</span> <span class="o">::</span> <span class="kt">BoolNetwork</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="o">-&gt;</span> <span class="kt">DG</span><span class="o">.</span><span class="kt">DGraph</span> <span class="kt">String</span> <span class="kt">String</span>
+<span class="n">boolNetworkToDG</span> <span class="n">network</span> <span class="n">labelEdges</span> <span class="o">=</span> <span class="kt">DG</span><span class="o">.</span><span class="n">fromArcsList</span> 
+                                    <span class="o">$</span> <span class="n">map</span> <span class="p">(</span><span class="nf">\</span><span class="p">(</span><span class="kt">BoolEdge</span> <span class="n">inp</span> <span class="n">out</span><span class="p">)</span> <span class="o">-&gt;</span> 
+                                        <span class="kt">GT</span><span class="o">.</span><span class="kt">Arc</span> <span class="p">(</span><span class="n">name</span> <span class="n">inp</span><span class="p">)</span> <span class="p">(</span><span class="n">name</span> <span class="n">out</span><span class="p">)</span> <span class="p">(</span><span class="kr">if</span> <span class="n">labelEdges</span> <span class="kr">then</span> <span class="s">"test"</span> <span class="kr">else</span> <span class="s">""</span><span class="p">))</span> 
+                                        <span class="p">(</span><span class="n">connections</span> <span class="n">network</span><span class="p">)</span> 
+
+<span class="c1">-- Plot a BoolNetwork to png file</span>
+<span class="n">boolNetworkToDGPar</span> <span class="o">::</span> <span class="kt">BoolNetwork</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="o">-&gt;</span> <span class="kt">DG</span><span class="o">.</span><span class="kt">DGraph</span> <span class="kt">String</span> <span class="kt">String</span>
+<span class="n">boolNetworkToDGPar</span> <span class="n">network</span> <span class="n">labelEdges</span> <span class="o">=</span> <span class="kt">DG</span><span class="o">.</span><span class="n">fromArcsList</span> 
+                                        <span class="p">(</span><span class="n">map</span>  <span class="p">(</span><span class="nf">\</span><span class="p">(</span><span class="kt">BoolEdge</span> <span class="n">inp</span> <span class="n">out</span><span class="p">)</span> <span class="o">-&gt;</span> 
+                                        <span class="kt">GT</span><span class="o">.</span><span class="kt">Arc</span> <span class="p">(</span><span class="n">name</span> <span class="n">inp</span><span class="p">)</span> <span class="p">(</span><span class="n">name</span> <span class="n">out</span><span class="p">)</span> <span class="p">(</span><span class="kr">if</span> <span class="n">labelEdges</span> <span class="kr">then</span> <span class="s">"test"</span> <span class="kr">else</span> <span class="s">""</span><span class="p">))</span> 
+                                        <span class="p">(</span><span class="n">connections</span> <span class="n">network</span><span class="p">)</span> 
+                                        <span class="p">`</span><span class="n">using</span><span class="p">`</span> <span class="n">parListChunk</span> <span class="mi">50</span> <span class="n">rdeepseq</span><span class="p">)</span>
+
+<span class="c1">-- Plot BoolNetwork to png file</span>
+<span class="n">plotBoolNetworkPng</span> <span class="o">::</span> <span class="kt">BoolNetwork</span> <span class="o">-&gt;</span> <span class="kt">FilePath</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="o">-&gt;</span> <span class="kt">IO</span> <span class="kt">FilePath</span>
+<span class="n">plotBoolNetworkPng</span> <span class="n">network</span> <span class="n">fname</span> <span class="n">labelEdges</span> <span class="o">=</span> <span class="n">plotDGPng</span> <span class="n">networkDG</span> <span class="n">fname</span> <span class="n">labelEdges</span>
+<span class="kr">where</span>
+    <span class="n">networkDG</span> <span class="o">=</span> <span class="n">boolNetworkToDG</span> <span class="n">network</span> <span class="n">labelEdges</span>
+
+<span class="n">plotBoolNetworkPngPar</span> <span class="o">::</span> <span class="kt">BoolNetwork</span> <span class="o">-&gt;</span> <span class="kt">FilePath</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="o">-&gt;</span> <span class="kt">IO</span> <span class="kt">FilePath</span>
+<span class="n">plotBoolNetworkPngPar</span> <span class="n">network</span> <span class="n">fname</span> <span class="n">labelEdges</span> <span class="o">=</span> <span class="n">plotDGPng</span> <span class="n">networkDG</span> <span class="n">fname</span> <span class="n">labelEdges</span>
+<span class="kr">where</span>
+    <span class="n">networkDG</span> <span class="o">=</span> <span class="n">boolNetworkToDGPar</span> <span class="n">network</span> <span class="n">labelEdges</span>
+
+<span class="cd">-- | Plot a directed 'DGraph' to a PNG image file</span>
+<span class="n">plotDGPng</span> <span class="o">::</span> <span class="p">(</span><span class="kt">Hashable</span> <span class="n">v</span><span class="p">,</span> <span class="kt">Ord</span> <span class="n">v</span><span class="p">,</span> <span class="kt">PrintDot</span> <span class="n">v</span><span class="p">,</span> <span class="kt">Show</span> <span class="n">v</span><span class="p">,</span> <span class="kt">Show</span> <span class="n">e</span><span class="p">)</span>
+<span class="o">=&gt;</span> <span class="kt">DG</span><span class="o">.</span><span class="kt">DGraph</span> <span class="n">v</span> <span class="n">e</span>
+<span class="o">-&gt;</span> <span class="kt">FilePath</span>
+<span class="o">-&gt;</span> <span class="kt">Bool</span>
+<span class="o">-&gt;</span> <span class="kt">IO</span> <span class="kt">FilePath</span>
+<span class="n">plotDGPng</span> <span class="n">g</span> <span class="n">fname</span> <span class="n">labelEdges</span> <span class="o">=</span> <span class="n">addExtension</span> <span class="p">(</span><span class="n">runGraphvizCommand</span> <span class="kt">Sfdp</span> <span class="o">$</span> <span class="n">toDirectedDot</span> <span class="n">labelEdges</span> <span class="n">g</span><span class="p">)</span> <span class="kt">Png</span> <span class="n">fname</span>
+
+<span class="n">labeledNodes</span> <span class="o">::</span> <span class="p">(</span><span class="kt">GT</span><span class="o">.</span><span class="kt">Graph</span> <span class="n">g</span><span class="p">,</span> <span class="kt">Show</span> <span class="n">v</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="n">g</span> <span class="n">v</span> <span class="n">e</span> <span class="o">-&gt;</span> <span class="p">[(</span><span class="n">v</span><span class="p">,</span> <span class="kt">String</span><span class="p">)]</span>
+<span class="n">labeledNodes</span> <span class="n">g</span> <span class="o">=</span> <span class="p">(</span><span class="nf">\</span><span class="n">v</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">show</span> <span class="n">v</span><span class="p">))</span> <span class="o">&lt;$&gt;</span> <span class="kt">GT</span><span class="o">.</span><span class="n">vertices</span> <span class="n">g</span>
+
+<span class="n">labeledArcs</span> <span class="o">::</span> <span class="p">(</span><span class="kt">Hashable</span> <span class="n">v</span><span class="p">,</span> <span class="kt">Eq</span> <span class="n">v</span><span class="p">,</span> <span class="kt">Show</span> <span class="n">e</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="kt">DG</span><span class="o">.</span><span class="kt">DGraph</span> <span class="n">v</span> <span class="n">e</span> <span class="o">-&gt;</span> <span class="p">[(</span><span class="n">v</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="kt">String</span><span class="p">)]</span>
+<span class="n">labeledArcs</span> <span class="n">g</span> <span class="o">=</span> <span class="p">(</span><span class="nf">\</span><span class="p">(</span><span class="kt">GT</span><span class="o">.</span><span class="kt">Arc</span> <span class="n">v1</span> <span class="n">v2</span> <span class="n">attr</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">,</span> <span class="n">show</span> <span class="n">attr</span><span class="p">))</span> <span class="o">&lt;$&gt;</span> <span class="kt">DG</span><span class="o">.</span><span class="n">arcs</span> <span class="n">g</span>
+
+<span class="n">toDirectedDot</span> <span class="o">::</span> <span class="p">(</span><span class="kt">Hashable</span> <span class="n">v</span><span class="p">,</span> <span class="kt">Ord</span> <span class="n">v</span><span class="p">,</span> <span class="kt">Show</span> <span class="n">v</span><span class="p">,</span> <span class="kt">Show</span> <span class="n">e</span><span class="p">)</span>
+<span class="o">=&gt;</span> <span class="kt">Bool</span> <span class="c1">-- ^ Label edges</span>
+<span class="o">-&gt;</span> <span class="kt">DG</span><span class="o">.</span><span class="kt">DGraph</span> <span class="n">v</span> <span class="n">e</span>
+<span class="o">-&gt;</span> <span class="kt">DotGraph</span> <span class="n">v</span>
+<span class="n">toDirectedDot</span> <span class="n">labelEdges</span> <span class="n">g</span> <span class="o">=</span> <span class="n">graphElemsToDot</span> <span class="n">params</span> <span class="p">(</span><span class="n">labeledNodes</span> <span class="n">g</span><span class="p">)</span> <span class="p">(</span><span class="n">labeledArcs</span> <span class="n">g</span><span class="p">)</span>
+    <span class="kr">where</span> <span class="n">params</span> <span class="o">=</span> <span class="n">sensibleDotParams</span> <span class="kt">True</span> <span class="n">labelEdges</span>
+
+<span class="n">sensibleDotParams</span>
+<span class="o">::</span> <span class="kt">Bool</span> <span class="c1">-- ^ Directed</span>
+<span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="c1">-- ^ Label edges</span>
+<span class="o">-&gt;</span> <span class="kt">GraphvizParams</span> <span class="n">t</span> <span class="n">l</span> <span class="kt">String</span> <span class="nb">()</span> <span class="n">l</span>
+<span class="n">sensibleDotParams</span> <span class="n">directed</span> <span class="n">edgeLabeled</span> <span class="o">=</span> <span class="n">nonClusteredParams</span>
+    <span class="p">{</span> <span class="n">isDirected</span> <span class="o">=</span> <span class="n">directed</span>
+    <span class="p">,</span> <span class="n">globalAttributes</span> <span class="o">=</span>
+        <span class="p">[</span> <span class="kt">GraphAttrs</span> <span class="p">[</span><span class="kt">Overlap</span> <span class="kt">ScaleOverlaps</span><span class="p">]</span>
+        <span class="p">,</span> <span class="kt">EdgeAttrs</span> <span class="p">[</span><span class="kt">FontColor</span> <span class="p">(</span><span class="kt">X11Color</span> <span class="kt">DarkGreen</span><span class="p">)]</span>
+        <span class="p">]</span>
+    <span class="p">,</span> <span class="n">fmtEdge</span> <span class="o">=</span> <span class="n">edgeFmt</span>
+    <span class="p">}</span>
+    <span class="kr">where</span>
+        <span class="n">edgeFmt</span> <span class="p">(</span><span class="kr">_</span><span class="p">,</span> <span class="kr">_</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span> <span class="o">=</span> <span class="kr">if</span> <span class="n">edgeLabeled</span>
+            <span class="kr">then</span> <span class="p">[</span><span class="kt">Label</span> <span class="o">$</span> <span class="kt">StrLabel</span> <span class="o">$</span> <span class="kt">TL</span><span class="o">.</span><span class="n">pack</span> <span class="n">l</span><span class="p">]</span>
+            <span class="kr">else</span> <span class="kt">[]</span>
+</code></pre></div></div> <h2 id="srcbddutilshs">src/BDDUtils.hs</h2> <div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">{-# LANGUAGE TupleSections #-}</span>
+
+<span class="kr">module</span> <span class="nn">BDDUtils</span>
+    <span class="p">(</span> <span class="kt">BDD</span><span class="p">(</span><span class="o">..</span><span class="p">)</span>
+    <span class="p">,</span> <span class="nf">evaluateFunc</span>
+    <span class="p">,</span> <span class="nf">getOptimalBoolExpressions</span>
+    <span class="p">,</span> <span class="nf">getOptimalBoolExpressionsPar</span>
+    <span class="p">,</span> <span class="nf">getRegulatoryNodes</span>
+    <span class="p">,</span> <span class="nf">searchUpdateRule</span>
+    <span class="p">,</span> <span class="nf">getBDDFromFunc</span>
+    <span class="p">)</span> <span class="kr">where</span>
+
+<span class="kr">import</span> <span class="nn">GraphUtils</span> <span class="p">(</span><span class="kt">NodeState</span><span class="p">(</span><span class="o">..</span><span class="p">),</span> <span class="kt">BoolEdge</span><span class="p">(</span><span class="o">..</span><span class="p">),</span> <span class="kt">BoolNetwork</span><span class="p">(</span><span class="o">..</span><span class="p">))</span>
+
+<span class="kr">import</span> <span class="nn">Data.Ord</span> <span class="p">(</span><span class="nf">comparing</span><span class="p">)</span>
+<span class="kr">import</span> <span class="nn">Data.List</span> <span class="p">(</span><span class="nf">maximumBy</span><span class="p">)</span>
+
+<span class="kr">import</span> <span class="k">qualified</span> <span class="nn">Data.Matrix</span> <span class="k">as</span> <span class="n">M</span>
+<span class="kr">import</span> <span class="k">qualified</span> <span class="nn">Data.Vector</span> <span class="k">as</span> <span class="n">Vec</span>
+
+<span class="kr">import</span> <span class="nn">Control.Parallel.Strategies</span> <span class="p">(</span><span class="nf">parMap</span><span class="p">,</span> <span class="nf">rdeepseq</span><span class="p">,</span> <span class="nf">using</span><span class="p">,</span> <span class="nf">parListChunk</span><span class="p">,</span> <span class="nf">parBuffer</span><span class="p">)</span>
+<span class="kr">import</span> <span class="nn">Control.DeepSeq</span><span class="p">(</span><span class="kt">NFData</span><span class="p">(</span><span class="o">..</span><span class="p">))</span>
+
+<span class="cm">{-
+Functions for evaluating and representing binary decision diagrams.
+-}</span>
+
+<span class="cm">{-
+Binary decision diagram data type used for evaluating boolean expressions.
+
+Example:
+- f = XOR (AND (Name "x") (OR (Name "y") (Name "a"))) (NOT (Name "z"))
+- fromEnum $ evaluateFunc f [("x", 1), ("y", 0), ("a", 1), ("z", 1)]
+- Output: 1
+-}</span>
+
+<span class="c1">-- Define binary decision diagram</span>
+<span class="kr">data</span> <span class="kt">BDD</span> <span class="o">=</span> <span class="kt">Name</span> <span class="kt">String</span>  <span class="c1">-- name of node (gene name)</span>
+        <span class="o">|</span> <span class="kt">State</span> <span class="kt">Int</span>    <span class="c1">-- state of node (0 or 1)</span>
+        <span class="o">|</span> <span class="kt">AND</span> <span class="kt">BDD</span> <span class="kt">BDD</span>  <span class="c1">-- an AND node</span>
+        <span class="o">|</span> <span class="kt">OR</span>  <span class="kt">BDD</span> <span class="kt">BDD</span>  <span class="c1">-- an OR node</span>
+        <span class="o">|</span> <span class="kt">XOR</span> <span class="kt">BDD</span> <span class="kt">BDD</span>  <span class="c1">-- an XOR node</span>
+        <span class="o">|</span> <span class="kt">NOT</span> <span class="kt">BDD</span>      <span class="c1">-- a NOT node</span>
+        <span class="kr">deriving</span> <span class="p">(</span><span class="kt">Eq</span><span class="p">)</span>
+
+<span class="kr">instance</span> <span class="kt">Show</span> <span class="kt">BDD</span> <span class="kr">where</span>
+<span class="n">show</span> <span class="p">(</span><span class="kt">Name</span> <span class="n">x</span><span class="p">)</span>  <span class="o">=</span> <span class="n">x</span>
+<span class="n">show</span> <span class="p">(</span><span class="kt">State</span> <span class="n">x</span><span class="p">)</span> <span class="o">=</span> <span class="n">show</span> <span class="n">x</span>
+<span class="n">show</span> <span class="p">(</span><span class="kt">AND</span> <span class="n">x</span> <span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="s">"("</span> <span class="o">++</span> <span class="n">show</span> <span class="n">x</span> <span class="o">++</span> <span class="s">" AND "</span> <span class="o">++</span> <span class="n">show</span> <span class="n">y</span> <span class="o">++</span> <span class="s">")"</span>
+<span class="n">show</span> <span class="p">(</span><span class="kt">OR</span> <span class="n">x</span> <span class="n">y</span><span class="p">)</span>  <span class="o">=</span> <span class="s">"("</span> <span class="o">++</span> <span class="n">show</span> <span class="n">x</span> <span class="o">++</span> <span class="s">" OR "</span> <span class="o">++</span> <span class="n">show</span> <span class="n">y</span> <span class="o">++</span> <span class="s">")"</span>
+<span class="n">show</span> <span class="p">(</span><span class="kt">XOR</span> <span class="n">x</span> <span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="s">"("</span> <span class="o">++</span> <span class="n">show</span> <span class="n">x</span> <span class="o">++</span> <span class="s">" XOR "</span> <span class="o">++</span> <span class="n">show</span> <span class="n">y</span> <span class="o">++</span> <span class="s">")"</span>
+<span class="n">show</span> <span class="p">(</span><span class="kt">NOT</span> <span class="n">x</span><span class="p">)</span>   <span class="o">=</span> <span class="s">"(NOT "</span> <span class="o">++</span> <span class="n">show</span> <span class="n">x</span> <span class="o">++</span> <span class="s">")"</span>
+
+<span class="kr">instance</span> <span class="kt">NFData</span> <span class="kt">BDD</span> <span class="kr">where</span>
+<span class="n">rnf</span> <span class="p">(</span><span class="kt">Name</span> <span class="n">x</span><span class="p">)</span>  <span class="o">=</span> <span class="n">rnf</span> <span class="n">x</span>
+<span class="n">rnf</span> <span class="p">(</span><span class="kt">State</span> <span class="n">x</span><span class="p">)</span> <span class="o">=</span> <span class="n">rnf</span> <span class="n">x</span>
+<span class="n">rnf</span> <span class="p">(</span><span class="kt">AND</span> <span class="n">x</span> <span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="n">rnf</span> <span class="n">x</span> <span class="p">`</span><span class="n">seq</span><span class="p">`</span> <span class="n">rnf</span> <span class="n">y</span>
+<span class="n">rnf</span> <span class="p">(</span><span class="kt">OR</span> <span class="n">x</span> <span class="n">y</span><span class="p">)</span>  <span class="o">=</span> <span class="n">rnf</span> <span class="n">x</span> <span class="p">`</span><span class="n">seq</span><span class="p">`</span> <span class="n">rnf</span> <span class="n">y</span>
+<span class="n">rnf</span> <span class="p">(</span><span class="kt">XOR</span> <span class="n">x</span> <span class="n">y</span><span class="p">)</span> <span class="o">=</span> <span class="n">rnf</span> <span class="n">x</span> <span class="p">`</span><span class="n">seq</span><span class="p">`</span> <span class="n">rnf</span> <span class="n">y</span>
+<span class="n">rnf</span> <span class="p">(</span><span class="kt">NOT</span> <span class="n">x</span><span class="p">)</span>   <span class="o">=</span> <span class="n">rnf</span> <span class="n">x</span> 
+
+<span class="cm">{-
+Evaluate a boolean expression given a BDD data type and a list of tuples specifying values for each variable.
+
+Params:
+- BDD data type
+- func: list of tuples [(varName, value)], where varName is a boolean variable name in the BDD, and value is the value assigned to it
+
+Example:
+- f = XOR (AND (Name "x") (OR (Name "y") (Name "a"))) (NOT (Name "z"))
+- fromEnum $ evaluateFunc f [("x", 1), ("y", 0), ("a", 1), ("z", 1)]
+- Output: 1
+
+-}</span>
+<span class="c1">-- evaluate a BDD for a given assignment of the variables</span>
+<span class="n">evaluateFunc</span> <span class="o">::</span> <span class="kt">BDD</span> <span class="o">-&gt;</span> <span class="p">[(</span><span class="kt">String</span><span class="p">,</span> <span class="kt">Int</span><span class="p">)]</span> <span class="o">-&gt;</span> <span class="kt">Bool</span>
+<span class="n">evaluateFunc</span> <span class="p">(</span><span class="kt">Name</span> <span class="n">x</span><span class="p">)</span> <span class="n">func</span>  <span class="o">=</span> <span class="kr">case</span> <span class="n">lookup</span> <span class="n">x</span> <span class="n">func</span> <span class="kr">of</span>
+                                <span class="kt">Just</span> <span class="n">a</span>  <span class="o">-&gt;</span> <span class="n">a</span> <span class="o">==</span> <span class="mi">1</span>
+                                <span class="kt">Nothing</span> <span class="o">-&gt;</span> <span class="n">error</span> <span class="s">"Variable not in assignment"</span>
+<span class="n">evaluateFunc</span> <span class="p">(</span><span class="kt">AND</span> <span class="n">x</span> <span class="n">y</span><span class="p">)</span> <span class="n">func</span> <span class="o">=</span> <span class="n">evaluateFunc</span> <span class="n">x</span> <span class="n">func</span> <span class="o">&amp;&amp;</span> <span class="n">evaluateFunc</span> <span class="n">y</span> <span class="n">func</span>
+<span class="n">evaluateFunc</span> <span class="p">(</span><span class="kt">OR</span> <span class="n">x</span> <span class="n">y</span><span class="p">)</span> <span class="n">func</span>  <span class="o">=</span> <span class="n">evaluateFunc</span> <span class="n">x</span> <span class="n">func</span> <span class="o">||</span> <span class="n">evaluateFunc</span> <span class="n">y</span> <span class="n">func</span>
+<span class="n">evaluateFunc</span> <span class="p">(</span><span class="kt">XOR</span> <span class="n">x</span> <span class="n">y</span><span class="p">)</span> <span class="n">func</span>
+<span class="o">|</span> <span class="n">andTrue</span>   <span class="o">=</span> <span class="kt">False</span>
+<span class="o">|</span> <span class="n">otherwise</span> <span class="o">=</span> <span class="n">evaluateFunc</span> <span class="p">(</span><span class="kt">OR</span> <span class="n">x</span> <span class="n">y</span><span class="p">)</span> <span class="n">func</span>
+<span class="kr">where</span>
+    <span class="n">andTrue</span> <span class="o">=</span> <span class="n">evaluateFunc</span> <span class="n">x</span> <span class="n">func</span> <span class="o">&amp;&amp;</span> <span class="n">evaluateFunc</span> <span class="n">y</span> <span class="n">func</span>
+<span class="n">evaluateFunc</span> <span class="p">(</span><span class="kt">NOT</span> <span class="n">b</span><span class="p">)</span> <span class="n">func</span> <span class="o">=</span> <span class="n">not</span> <span class="p">(</span><span class="n">evaluateFunc</span> <span class="n">b</span> <span class="n">func</span><span class="p">)</span>
+<span class="n">evaluateFunc</span> <span class="p">(</span><span class="kt">State</span> <span class="n">x</span><span class="p">)</span> <span class="kr">_</span>
+    <span class="o">|</span> <span class="n">x</span> <span class="o">==</span> <span class="mi">1</span>    <span class="o">=</span> <span class="kt">True</span>
+    <span class="o">|</span> <span class="n">otherwise</span> <span class="o">=</span> <span class="kt">False</span>
+
+
+<span class="cm">{-
+Get gene wise dynamics consistency metric given a predicted time series and the actual time series.
+
+Params:
+- predictedStates :: [Int]
+- actualStates :: [Int]
+
+-}</span>
+<span class="n">geneWiseDynamicsConsistency</span> <span class="o">::</span> <span class="p">[</span><span class="kt">Int</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">Int</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="kt">Double</span>
+<span class="n">geneWiseDynamicsConsistency</span> <span class="n">predictedStates</span> <span class="n">actualStates</span> <span class="o">=</span> <span class="n">sumPredictions</span> <span class="o">/</span> <span class="n">fromIntegral</span> <span class="n">timeLength</span>
+<span class="kr">where</span>
+    <span class="n">sumPredictions</span> <span class="o">=</span> <span class="n">sum</span> <span class="o">$</span> <span class="n">zipWith</span> <span class="p">(</span><span class="nf">\</span><span class="n">x</span> <span class="n">y</span> <span class="o">-&gt;</span> <span class="kr">if</span> <span class="n">x</span> <span class="o">==</span> <span class="n">y</span> <span class="kr">then</span> <span class="mi">1</span> <span class="o">::</span> <span class="kt">Double</span> <span class="kr">else</span> <span class="mi">0</span> <span class="o">::</span> <span class="kt">Double</span><span class="p">)</span> <span class="n">predictedStates</span> <span class="n">actualStates</span>
+    <span class="n">timeLength</span> <span class="o">=</span> <span class="n">length</span> <span class="n">predictedStates</span>
+
+<span class="cm">{-
+Get all combinations of conjunctive and disjunctive boolean expressions.
+
+Params: 
+- n :: Int -&gt; number of operators to evaluate
+
+Returns: 
+- [[Int]] -&gt; list of Int lists, where each list corresponds to a sequence of AND/OR operations.
+
+Each list, e.g. [1, 0, 1], signifies a sequence of AND/OR operators, where 1 = AND and 0 = OR
+
+Example: given a list of truth values, such as [1, 0, 0, 1], and a boolean expression combination represented as [1, 0, 1]:
+    - Using the BDD data type, we would evaluate this as: ((1 AND 0) OR 0) AND 1 
+-}</span>
+<span class="n">getConjDisjCombos</span> <span class="o">::</span> <span class="kt">Int</span> <span class="o">-&gt;</span> <span class="p">[[</span><span class="kt">Int</span><span class="p">]]</span>
+
+<span class="cm">{-
+getConjDisjCombos 1 = [[0], [1]]
+getConjDisjCombos n = [[mod x 2^i | i &lt;- [0..n-1]] | x &lt;- [0..(2^n)-1]]
+-}</span>
+<span class="n">getConjDisjCombos</span> <span class="mi">0</span> <span class="o">=</span> <span class="p">[</span><span class="kt">[]</span><span class="p">]</span>
+<span class="n">getConjDisjCombos</span> <span class="n">n</span> <span class="o">=</span> <span class="p">[(</span><span class="n">x</span><span class="o">:</span><span class="n">xs</span><span class="p">)</span> <span class="o">|</span> <span class="n">x</span> <span class="o">&lt;-</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">xs</span> <span class="o">&lt;-</span> <span class="n">getConjDisjCombos</span> <span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)]</span>
+
+
+<span class="cm">{-
+Construct a BDD given boolean variable names and a combination of conjunctive/disjunctive operations.
+
+Params:
+- (x:xs) :: [String] -&gt; boolean variable names
+- ops :: [Int] -&gt; conjunctive/disjunctive combinations as one element outputted by getConjDisjCombos
+
+Returns: BDD
+
+The number of variables should always be 1 more than the number of operations.
+
+Example:
+- getBDDFromFunc ["v1", "v2", "v3"] [1, 0] returns a BDD of: ((v1 AND v2) OR v3)
+- bdd = getBDDFromFunc ["v1", "v2", "v3"] [1, 0]
+- fromEnum $ evaluateFunc bdd [("v1", 1), ("v2", 0), ("v3", 1)]
+    - Output: 1
+-}</span>
+<span class="n">getBDDFromFunc</span> <span class="o">::</span> <span class="p">[</span><span class="kt">String</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">Int</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="kt">BDD</span>
+<span class="n">getBDDFromFunc</span> <span class="kt">[]</span> <span class="kr">_</span>       <span class="o">=</span> <span class="n">error</span> <span class="s">"Invalid input."</span>
+<span class="n">getBDDFromFunc</span> <span class="p">[</span><span class="kr">_</span><span class="p">]</span> <span class="kr">_</span>      <span class="o">=</span> <span class="n">error</span> <span class="s">"Invalid input."</span>
+<span class="n">getBDDFromFunc</span> <span class="p">(</span><span class="n">x</span><span class="o">:</span><span class="n">xs</span><span class="p">)</span> <span class="n">ops</span> <span class="o">=</span> <span class="n">foldl</span> <span class="p">(</span><span class="nf">\</span><span class="n">acc</span> <span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">ys</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kr">if</span> <span class="n">ys</span> <span class="o">==</span> <span class="mi">1</span> <span class="kr">then</span> <span class="kt">AND</span> <span class="n">acc</span> <span class="p">(</span><span class="kt">Name</span> <span class="n">y</span><span class="p">)</span> <span class="kr">else</span> <span class="kt">OR</span> <span class="n">acc</span> <span class="p">(</span><span class="kt">Name</span> <span class="n">y</span><span class="p">))</span> <span class="p">(</span><span class="kt">Name</span> <span class="n">x</span><span class="p">)</span> <span class="n">tailZipped</span>
+<span class="kr">where</span>
+    <span class="n">tailZipped</span> <span class="o">=</span> <span class="n">zip</span> <span class="n">xs</span> <span class="n">ops</span>
+
+<span class="cm">{-
+Get regulatory genes of node given target node and boolean network.
+
+Params:
+- targetNode: target gene  
+- network   : BoolNetwork
+-}</span>
+<span class="n">getRegulatoryNodes</span> <span class="o">::</span> <span class="kt">NodeState</span> <span class="o">-&gt;</span> <span class="kt">BoolNetwork</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">NodeState</span><span class="p">]</span>
+<span class="n">getRegulatoryNodes</span> <span class="n">targetNode</span> <span class="n">network</span> <span class="o">=</span> <span class="n">map</span> <span class="n">v_i</span> <span class="o">$</span> <span class="n">filter</span> <span class="p">(</span><span class="nf">\</span><span class="p">(</span><span class="kt">BoolEdge</span> <span class="kr">_</span> <span class="n">out</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">out</span> <span class="o">==</span> <span class="n">targetNode</span><span class="p">)</span> <span class="o">$</span> <span class="n">connections</span> <span class="n">network</span>
+
+
+<span class="cm">{-
+Compute genewise dynamics consistency metric for possible boolean expressions in input nodes sorted by mutual information.
+
+Params:
+- inpNodes :: [NodeState] -&gt; top k input nodes with highest mutual information with respect to targetNode
+- targetNode :: NodeState
+- timeLength :: Int -&gt; length of time series
+-}</span>
+<span class="n">searchUpdateRule</span> <span class="o">::</span> <span class="p">[</span><span class="kt">NodeState</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="kt">NodeState</span> <span class="o">-&gt;</span> <span class="kt">Int</span> <span class="o">-&gt;</span> <span class="p">[(</span><span class="kt">Double</span><span class="p">,</span> <span class="kt">BDD</span><span class="p">)]</span>
+<span class="n">searchUpdateRule</span> <span class="n">inpNodes</span> <span class="n">targetNode</span> <span class="n">timeLength</span> <span class="o">=</span> 
+<span class="kr">case</span> <span class="n">allTargetStates</span> <span class="kr">of</span> 
+    <span class="kt">[]</span>               <span class="o">-&gt;</span> <span class="n">error</span> <span class="s">"Invalid target states."</span>
+    <span class="p">[</span><span class="kr">_</span><span class="p">]</span>              <span class="o">-&gt;</span> <span class="n">error</span> <span class="s">"Invalid target states."</span>
+    <span class="p">(</span><span class="kr">_</span><span class="o">:</span><span class="n">targetStates</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">map</span> <span class="p">(</span><span class="nf">\</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">geneWiseDynamicsConsistency</span> <span class="n">p</span> <span class="n">targetStates</span><span class="p">,</span> <span class="n">r</span><span class="p">))</span> <span class="n">predStates</span>
+<span class="kr">where</span>
+    <span class="c1">-- Get target states of target node</span>
+    <span class="n">allTargetStates</span> <span class="o">=</span> <span class="n">timeStates</span> <span class="n">targetNode</span>
+
+    <span class="n">inpNodeNames</span> <span class="o">=</span> <span class="n">map</span> <span class="n">name</span> <span class="n">inpNodes</span>
+    <span class="n">inpMatrix</span>    <span class="o">=</span> <span class="kt">M</span><span class="o">.</span><span class="n">fromLists</span> <span class="o">$</span> <span class="n">map</span> <span class="p">(</span><span class="nf">\</span><span class="n">xs</span> <span class="o">-&gt;</span> <span class="n">map</span> <span class="p">(</span><span class="n">name</span> <span class="n">xs</span><span class="p">,)</span> <span class="p">(</span><span class="n">timeStates</span> <span class="n">xs</span><span class="p">))</span> <span class="n">inpNodes</span>
+
+    <span class="c1">-- Get boolean expression combos</span>
+    <span class="n">ruleCombos</span>   <span class="o">=</span> <span class="n">map</span> <span class="p">(</span><span class="n">getBDDFromFunc</span> <span class="n">inpNodeNames</span><span class="p">)</span> <span class="o">$</span> <span class="n">getConjDisjCombos</span> <span class="p">(</span><span class="n">length</span> <span class="n">inpNodes</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1">-- Predict states using boolean expression</span>
+    <span class="n">predStates</span>   <span class="o">=</span> <span class="n">map</span> <span class="p">(</span><span class="nf">\</span><span class="n">ruleBDD</span> <span class="o">-&gt;</span>
+                        <span class="kr">let</span> <span class="n">p</span> <span class="o">=</span> <span class="n">map</span> <span class="p">(</span><span class="n">fromEnum</span> <span class="o">.</span> <span class="nf">\</span><span class="n">t</span> <span class="o">-&gt;</span> <span class="n">evaluateFunc</span> <span class="n">ruleBDD</span> <span class="p">(</span><span class="n">filter</span> <span class="p">(</span><span class="nf">\</span><span class="p">(</span><span class="n">nn</span><span class="p">,</span> <span class="kr">_</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">nn</span> <span class="p">`</span><span class="n">elem</span><span class="p">`</span> <span class="n">inpNodeNames</span><span class="p">)</span>
+                                            <span class="o">$</span> <span class="kt">Vec</span><span class="o">.</span><span class="n">toList</span> <span class="p">(</span><span class="kt">M</span><span class="o">.</span><span class="n">getCol</span> <span class="n">t</span> <span class="n">inpMatrix</span><span class="p">)))</span>
+                                            <span class="p">[</span><span class="mi">1</span><span class="o">..</span><span class="p">(</span><span class="n">timeLength</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)]</span>
+                        <span class="kr">in</span> <span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">ruleBDD</span><span class="p">))</span>
+                        <span class="n">ruleCombos</span>
+
+<span class="n">searchUpdateRulePar</span> <span class="o">::</span> <span class="p">[</span><span class="kt">NodeState</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="kt">NodeState</span> <span class="o">-&gt;</span> <span class="kt">Int</span> <span class="o">-&gt;</span> <span class="p">[(</span><span class="kt">Double</span><span class="p">,</span> <span class="kt">BDD</span><span class="p">)]</span>
+<span class="n">searchUpdateRulePar</span> <span class="n">inpNodes</span> <span class="n">targetNode</span> <span class="n">timeLength</span> <span class="o">=</span> 
+<span class="kr">case</span> <span class="n">allTargetStates</span> <span class="kr">of</span> 
+    <span class="kt">[]</span>               <span class="o">-&gt;</span> <span class="n">error</span> <span class="s">"Invalid target states."</span>
+    <span class="p">[</span><span class="kr">_</span><span class="p">]</span>              <span class="o">-&gt;</span> <span class="n">error</span> <span class="s">"Invalid target states."</span>
+    <span class="p">(</span><span class="kr">_</span><span class="o">:</span><span class="n">targetStates</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">map</span> <span class="p">(</span><span class="nf">\</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">geneWiseDynamicsConsistency</span> <span class="n">p</span> <span class="n">targetStates</span><span class="p">,</span> <span class="n">r</span><span class="p">))</span> <span class="n">predStates</span>
+<span class="kr">where</span>
+    <span class="c1">-- Get target states of target node</span>
+    <span class="n">allTargetStates</span> <span class="o">=</span> <span class="n">timeStates</span> <span class="n">targetNode</span>
+
+    <span class="n">inpNodeNames</span>     <span class="o">=</span> <span class="n">map</span> <span class="n">name</span> <span class="n">inpNodes</span>
+    <span class="n">inpMatrix</span>        <span class="o">=</span> <span class="kt">M</span><span class="o">.</span><span class="n">fromLists</span> <span class="o">$</span> <span class="n">map</span> <span class="p">(</span><span class="nf">\</span><span class="n">xs</span> <span class="o">-&gt;</span> <span class="n">map</span> <span class="p">(</span><span class="n">name</span> <span class="n">xs</span><span class="p">,)</span> <span class="p">(</span><span class="n">timeStates</span> <span class="n">xs</span><span class="p">)</span> <span class="p">`</span><span class="n">using</span><span class="p">`</span> <span class="n">parBuffer</span> <span class="mi">50</span> <span class="n">rdeepseq</span><span class="p">)</span> <span class="n">inpNodes</span>
+
+    <span class="c1">-- Get boolean expression combos</span>
+    <span class="n">ruleCombos</span>       <span class="o">=</span> <span class="n">map</span> <span class="p">(</span><span class="n">getBDDFromFunc</span> <span class="n">inpNodeNames</span><span class="p">)</span> <span class="p">(</span><span class="n">getConjDisjCombos</span> <span class="p">(</span><span class="n">length</span> <span class="n">inpNodes</span><span class="p">))</span> <span class="p">`</span><span class="n">using</span><span class="p">`</span> <span class="n">parBuffer</span> <span class="mi">100</span> <span class="n">rdeepseq</span>
+    
+    <span class="c1">-- Predict states using boolean expression</span>
+    <span class="n">predStates</span>       <span class="o">=</span> <span class="n">parMap</span> <span class="n">rdeepseq</span> <span class="p">(</span><span class="nf">\</span><span class="n">ruleBDD</span> <span class="o">-&gt;</span>
+                            <span class="kr">let</span> <span class="n">p</span> <span class="o">=</span> <span class="n">map</span> <span class="p">(</span><span class="n">fromEnum</span> <span class="o">.</span> <span class="nf">\</span><span class="n">t</span> <span class="o">-&gt;</span> <span class="n">evaluateFunc</span> <span class="n">ruleBDD</span> <span class="p">(</span><span class="n">filter</span> <span class="p">(</span><span class="nf">\</span><span class="p">(</span><span class="n">nn</span><span class="p">,</span> <span class="kr">_</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">nn</span> <span class="p">`</span><span class="n">elem</span><span class="p">`</span> <span class="n">inpNodeNames</span><span class="p">)</span>
+                                    <span class="o">$</span> <span class="kt">Vec</span><span class="o">.</span><span class="n">toList</span>  <span class="p">(</span><span class="kt">M</span><span class="o">.</span><span class="n">getCol</span> <span class="n">t</span> <span class="n">inpMatrix</span><span class="p">)))</span>
+                                    <span class="p">[</span><span class="mi">1</span><span class="o">..</span><span class="p">(</span><span class="n">timeLength</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)]</span> 
+                                    <span class="p">`</span><span class="n">using</span><span class="p">`</span> <span class="n">parBuffer</span> <span class="mi">50</span> <span class="n">rdeepseq</span>
+                            <span class="kr">in</span> <span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">ruleBDD</span><span class="p">))</span>
+                            <span class="n">ruleCombos</span>
+
+<span class="cm">{-
+Get optimal boolean expressions for each node in network that optimizes genewise dynamics consistency.
+-}</span>
+<span class="n">getOptimalBoolExpressions</span> <span class="o">::</span> <span class="kt">BoolNetwork</span> <span class="o">-&gt;</span> <span class="kt">Int</span> <span class="o">-&gt;</span> <span class="p">[(</span><span class="kt">NodeState</span><span class="p">,</span> <span class="kt">BDD</span><span class="p">,</span> <span class="kt">Double</span><span class="p">)]</span>
+<span class="n">getOptimalBoolExpressions</span> <span class="n">inferredNetwork</span> <span class="n">timeLength</span> <span class="o">=</span> <span class="n">map</span> <span class="p">(</span><span class="nf">\</span><span class="n">targetNode</span> <span class="o">-&gt;</span> 
+                                                            <span class="kr">let</span> <span class="n">inpNodes</span>                     <span class="o">=</span> <span class="n">getRegulatoryNodes</span> <span class="n">targetNode</span> <span class="n">inferredNetwork</span>
+                                                                <span class="c1">-- Get consistency metrics for each boolean expression</span>
+                                                                <span class="n">consistencyMetrics</span>           <span class="o">=</span> <span class="n">searchUpdateRule</span> <span class="n">inpNodes</span> <span class="n">targetNode</span> <span class="n">timeLength</span>
+                                                                <span class="c1">-- Get boolean expression with max consistency metric</span>
+                                                                <span class="p">(</span><span class="n">maxConsistency</span><span class="p">,</span> <span class="n">optimalBDD</span><span class="p">)</span> <span class="o">=</span> <span class="n">maximumBy</span> <span class="p">(</span><span class="n">comparing</span> <span class="n">fst</span><span class="p">)</span> <span class="n">consistencyMetrics</span>
+                                                            <span class="kr">in</span> <span class="p">(</span><span class="n">targetNode</span><span class="p">,</span> <span class="n">optimalBDD</span><span class="p">,</span> <span class="n">maxConsistency</span><span class="p">))</span> 
+                                                        <span class="o">$</span> <span class="n">nodes</span> <span class="n">inferredNetwork</span>
+
+<span class="n">getOptimalBoolExpressionsPar</span> <span class="o">::</span> <span class="kt">BoolNetwork</span> <span class="o">-&gt;</span> <span class="kt">Int</span> <span class="o">-&gt;</span> <span class="p">[(</span><span class="kt">NodeState</span><span class="p">,</span> <span class="kt">BDD</span><span class="p">,</span> <span class="kt">Double</span><span class="p">)]</span>
+<span class="n">getOptimalBoolExpressionsPar</span> <span class="n">inferredNetwork</span> <span class="n">k</span> <span class="o">=</span> <span class="n">map</span> <span class="p">(</span><span class="nf">\</span><span class="n">targetNode</span> <span class="o">-&gt;</span> 
+                                                        <span class="kr">let</span> <span class="n">inpNodes</span>                     <span class="o">=</span> <span class="n">getRegulatoryNodes</span> <span class="n">targetNode</span> <span class="n">inferredNetwork</span>
+                                                            <span class="n">consistencyMetrics</span>           <span class="o">=</span> <span class="n">searchUpdateRulePar</span> <span class="n">inpNodes</span> <span class="n">targetNode</span> <span class="n">k</span>
+                                                            <span class="p">(</span><span class="n">maxConsistency</span><span class="p">,</span> <span class="n">optimalBDD</span><span class="p">)</span> <span class="o">=</span> <span class="n">maximumBy</span> <span class="p">(</span><span class="n">comparing</span> <span class="n">fst</span><span class="p">)</span> <span class="n">consistencyMetrics</span>
+                                                        <span class="kr">in</span> <span class="p">(</span><span class="n">targetNode</span><span class="p">,</span> <span class="n">optimalBDD</span><span class="p">,</span> <span class="n">maxConsistency</span><span class="p">))</span> 
+                                                <span class="p">(</span><span class="n">nodes</span> <span class="n">inferredNetwork</span><span class="p">)</span>
+                                                <span class="p">`</span><span class="n">using</span><span class="p">`</span> <span class="n">parListChunk</span> <span class="mi">50</span> <span class="n">rdeepseq</span>
+</code></pre></div></div> <h2 id="srcprocessdatahs">src/ProcessData.hs</h2> <div class="language-haskell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">module</span> <span class="nn">ProcessData</span>
+<span class="p">(</span> <span class="nf">csvToNodeStates</span>
+<span class="p">)</span> <span class="kr">where</span>
+
+<span class="kr">import</span> <span class="k">qualified</span> <span class="nn">Data.ByteString.Char8</span> <span class="k">as</span> <span class="n">C</span>
+
+<span class="kr">import</span> <span class="nn">GraphUtils</span> <span class="p">(</span><span class="kt">NodeState</span><span class="p">(</span><span class="o">..</span><span class="p">))</span>
+<span class="kr">import</span> <span class="k">qualified</span> <span class="nn">Data.Matrix</span> <span class="k">as</span> <span class="n">M</span>
+<span class="kr">import</span> <span class="k">qualified</span> <span class="nn">Data.Vector</span> <span class="k">as</span> <span class="n">Vec</span>
+
+
+<span class="c1">-- Get CSV Data</span>
+<span class="c1">-- Return (header, values as multi-D list) </span>
+<span class="n">getCSVData</span> <span class="o">::</span> <span class="kt">String</span> <span class="o">-&gt;</span> <span class="kt">IO</span> <span class="p">([</span><span class="kt">String</span><span class="p">],</span> <span class="p">[[</span><span class="kt">Int</span><span class="p">]])</span>
+<span class="n">getCSVData</span> <span class="n">fname</span> <span class="o">=</span> <span class="kr">do</span>
+    <span class="n">inp</span> <span class="o">&lt;-</span> <span class="kt">C</span><span class="o">.</span><span class="n">readFile</span> <span class="n">fname</span>
+    <span class="kr">let</span> <span class="n">inpLines</span> <span class="o">=</span> <span class="kt">C</span><span class="o">.</span><span class="n">lines</span> <span class="n">inp</span>
+    <span class="kr">case</span> <span class="n">inpLines</span> <span class="kr">of</span> 
+        <span class="kt">[]</span>                <span class="o">-&gt;</span> <span class="n">error</span> <span class="s">"Invalid csv file."</span>
+        <span class="p">[</span><span class="kr">_</span><span class="p">]</span>               <span class="o">-&gt;</span> <span class="n">error</span> <span class="s">"Invalid csv file."</span>
+        <span class="p">(</span><span class="n">header</span><span class="o">:</span><span class="n">csvLines</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kr">do</span>
+            <span class="kr">let</span> <span class="n">headerFormatted</span>   <span class="o">=</span> <span class="n">map</span> <span class="kt">C</span><span class="o">.</span><span class="n">unpack</span> <span class="p">(</span><span class="kt">C</span><span class="o">.</span><span class="n">split</span> <span class="sc">','</span> <span class="n">header</span><span class="p">)</span> 
+                <span class="n">csvLinesFormatted</span> <span class="o">=</span> <span class="n">map</span> <span class="p">(</span><span class="n">map</span> <span class="p">(</span><span class="nf">\</span><span class="n">l2</span> <span class="o">-&gt;</span> <span class="n">read</span> <span class="p">(</span><span class="kt">C</span><span class="o">.</span><span class="n">unpack</span> <span class="n">l2</span><span class="p">)</span> <span class="o">::</span> <span class="kt">Int</span><span class="p">)</span> <span class="o">.</span> <span class="kt">C</span><span class="o">.</span><span class="n">split</span> <span class="sc">','</span><span class="p">)</span> <span class="n">csvLines</span>
+            <span class="n">return</span> <span class="p">(</span><span class="n">headerFormatted</span><span class="p">,</span> <span class="n">csvLinesFormatted</span><span class="p">)</span>
+
+<span class="cm">{-
+Params:
+    - x: csvData returned by getCSVData
+    - axis: 0 = row, 1 = column 
+-}</span>
+<span class="n">parseCSVData</span> <span class="o">::</span> <span class="kt">IO</span> <span class="p">([</span><span class="kt">String</span><span class="p">],</span> <span class="p">[[</span><span class="kt">Int</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="kt">Int</span> <span class="o">-&gt;</span> <span class="kt">IO</span> <span class="p">[</span><span class="kt">NodeState</span><span class="p">]</span>
+<span class="n">parseCSVData</span> <span class="n">x</span> <span class="n">axis</span> <span class="o">=</span> <span class="kr">do</span>
+    <span class="n">csvData</span> <span class="o">&lt;-</span> <span class="n">x</span>
+    <span class="kr">let</span> <span class="p">(</span><span class="n">header</span><span class="p">,</span> <span class="n">csvList</span><span class="p">)</span> <span class="o">=</span> <span class="n">csvData</span>
+        <span class="n">csvMatrix</span>         <span class="o">=</span> <span class="kt">M</span><span class="o">.</span><span class="n">fromLists</span> <span class="n">csvList</span>
+        <span class="n">nodeStates</span>        <span class="o">=</span> <span class="n">foldl</span> <span class="p">(</span><span class="nf">\</span><span class="n">acc</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">hName</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">acc</span> <span class="o">++</span> <span class="p">[</span><span class="kt">NodeState</span> <span class="n">hName</span> <span class="p">(</span><span class="kt">Vec</span><span class="o">.</span><span class="n">toList</span> <span class="o">$</span>
+                                                        <span class="kr">if</span> <span class="n">axis</span> <span class="o">==</span> <span class="mi">0</span> 
+                                                            <span class="kr">then</span> <span class="kt">M</span><span class="o">.</span><span class="n">getRow</span> <span class="n">i</span> <span class="n">csvMatrix</span> 
+                                                            <span class="kr">else</span> <span class="kt">M</span><span class="o">.</span><span class="n">getCol</span> <span class="n">i</span> <span class="n">csvMatrix</span>
+                                                        <span class="p">)])</span>
+                                <span class="kt">[]</span>
+                                <span class="o">$</span> <span class="n">filter</span> <span class="p">(</span><span class="nf">\</span><span class="p">(</span><span class="kr">_</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">n</span> <span class="o">/=</span> <span class="s">"time"</span><span class="p">)</span> <span class="p">(</span><span class="n">zip</span> <span class="p">[</span><span class="mi">0</span><span class="o">..</span><span class="p">]</span> <span class="n">header</span><span class="p">)</span>
+
+    <span class="n">return</span> <span class="n">nodeStates</span>
+
+<span class="cm">{-
+Params:
+    - fname: csv filename
+    - axis: 0 = row, 1 = column 
+
+Example: 
+t &lt;- csvToNodeStates "../../test2.csv" 1
+-}</span>
+<span class="n">csvToNodeStates</span> <span class="o">::</span> <span class="kt">String</span> <span class="o">-&gt;</span> <span class="kt">Int</span> <span class="o">-&gt;</span> <span class="kt">IO</span> <span class="p">[</span><span class="kt">NodeState</span><span class="p">]</span>
+<span class="n">csvToNodeStates</span> <span class="n">fname</span> <span class="o">=</span> <span class="n">parseCSVData</span> <span class="p">(</span><span class="n">getCSVData</span> <span class="n">fname</span><span class="p">)</span>
+</code></pre></div></div> <h2 id="srcgenerate_datapy">src/generate_data.py</h2> <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Generate large test samples
+</span><span class="sh">"""</span><span class="s">
+Main script for generating random large datasets of input/output gene expression samples
+</span><span class="sh">"""</span>
+
+<span class="kn">import</span> <span class="n">random</span>
+<span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="n">argparse</span>
+
+<span class="k">def</span> <span class="nf">generate_io_pairs</span><span class="p">(</span><span class="n">num_nodes</span><span class="p">,</span> <span class="n">time</span><span class="p">):</span>
+    <span class="n">nodes</span> <span class="o">=</span> <span class="p">[</span><span class="sh">"</span><span class="s">v</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_nodes</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span> <span class="o">+</span> <span class="p">[</span><span class="sh">"</span><span class="s">v</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">+</span> <span class="sh">"'"</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_nodes</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
+    <span class="n">state_series</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="n">inp_seen</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">out_seen</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">time</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">rand_states_inp</span> <span class="o">=</span> <span class="p">[</span><span class="n">random</span><span class="p">.</span><span class="nf">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">num_nodes</span><span class="p">)]</span>
+        <span class="n">rand_states_out</span> <span class="o">=</span> <span class="p">[</span><span class="n">random</span><span class="p">.</span><span class="nf">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">num_nodes</span><span class="p">)]</span>
+
+        <span class="n">inp_done</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="n">out_done</span> <span class="o">=</span> <span class="bp">False</span>
+
+        <span class="k">while</span> <span class="ow">not</span> <span class="p">(</span><span class="n">inp_done</span> <span class="ow">and</span> <span class="n">out_done</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">rand_states_inp</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">inp_seen</span><span class="p">:</span>
+                <span class="n">inp_seen</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">rand_states_inp</span><span class="p">)</span>
+                <span class="n">inp_done</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">rand_states_inp</span> <span class="o">=</span> <span class="p">[</span><span class="n">random</span><span class="p">.</span><span class="nf">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">num_nodes</span><span class="p">)]</span>
+
+            <span class="k">if</span> <span class="n">rand_states_out</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">out_seen</span><span class="p">:</span>
+                <span class="n">out_seen</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">rand_states_out</span><span class="p">)</span>
+                <span class="n">out_done</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">rand_states_out</span> <span class="o">=</span> <span class="p">[</span><span class="n">random</span><span class="p">.</span><span class="nf">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">num_nodes</span><span class="p">)]</span>
+
+        <span class="n">state_series</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">rand_states_inp</span> <span class="o">+</span> <span class="n">rand_states_out</span><span class="p">)</span>
+
+    <span class="n">state_series_df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">(</span><span class="n">state_series</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="n">nodes</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">state_series_df</span>
+
+
+<span class="k">def</span> <span class="nf">generate_data_time_series</span><span class="p">(</span><span class="n">num_nodes</span><span class="p">,</span> <span class="n">time</span><span class="p">):</span>
+    <span class="n">nodes</span> <span class="o">=</span> <span class="p">[</span><span class="sh">"</span><span class="s">v</span><span class="sh">"</span> <span class="o">+</span> <span class="nf">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_nodes</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
+    <span class="n">state_series</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">states_seen</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">time</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="c1"># Ensure that simultaneous gene expressions are not repeated
+</span>        <span class="n">rand_states</span> <span class="o">=</span> <span class="p">[</span><span class="n">random</span><span class="p">.</span><span class="nf">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="nf">len</span><span class="p">(</span><span class="n">nodes</span><span class="p">))]</span>
+        <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">rand_states</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">states_seen</span><span class="p">:</span>
+                <span class="n">states_seen</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">rand_states</span><span class="p">)</span>
+                <span class="k">break</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">rand_states</span> <span class="o">=</span> <span class="p">[</span><span class="n">random</span><span class="p">.</span><span class="nf">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="nf">len</span><span class="p">(</span><span class="n">nodes</span><span class="p">))]</span>
+            
+        <span class="n">state_series</span><span class="p">.</span><span class="nf">append</span><span class="p">([</span><span class="n">t</span><span class="p">]</span> <span class="o">+</span> <span class="n">rand_states</span><span class="p">)</span>
+
+    <span class="n">state_series_df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">(</span><span class="n">state_series</span><span class="p">,</span> <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="sh">"</span><span class="s">time</span><span class="sh">"</span><span class="p">]</span> <span class="o">+</span> <span class="n">nodes</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">state_series_df</span>
+
+<span class="k">def</span> <span class="nf">output_data_to_file</span><span class="p">(</span><span class="n">state_series_df</span><span class="p">,</span> <span class="n">fname</span><span class="p">):</span>
+    <span class="n">state_series_df</span><span class="p">.</span><span class="nf">to_csv</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Printed data to {}</span><span class="sh">"</span><span class="p">.</span><span class="nf">format</span><span class="p">(</span><span class="n">fname</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">parse_args</span><span class="p">():</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="p">.</span><span class="nc">ArgumentParser</span><span class="p">()</span>
+
+    <span class="n">parser</span><span class="p">.</span><span class="nf">add_argument</span><span class="p">(</span><span class="sh">"</span><span class="s">--numNodes</span><span class="sh">"</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="sh">"</span><span class="s">Number of nodes</span><span class="sh">"</span><span class="p">)</span>
+    <span class="n">parser</span><span class="p">.</span><span class="nf">add_argument</span><span class="p">(</span><span class="sh">"</span><span class="s">--time</span><span class="sh">"</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="sh">"</span><span class="s">Length of time-series</span><span class="sh">"</span><span class="p">)</span>
+    <span class="n">parser</span><span class="p">.</span><span class="nf">add_argument</span><span class="p">(</span><span class="sh">"</span><span class="s">--outputFile</span><span class="sh">"</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="sh">"</span><span class="s">Output file</span><span class="sh">"</span><span class="p">)</span><span class="err">`</span>
+
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="p">.</span><span class="nf">parse_args</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">args</span>
+
+<span class="c1"># Example: python generate_data.py --numNodes 100 --time 300 --outputFile "test.csv"
+</span><span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="sh">"</span><span class="s">__main__</span><span class="sh">"</span><span class="p">:</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="nf">parse_args</span><span class="p">()</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="nf">generate_data_time_series</span><span class="p">(</span><span class="n">args</span><span class="p">.</span><span class="n">numNodes</span><span class="p">,</span> <span class="n">args</span><span class="p">.</span><span class="n">time</span><span class="p">)</span>
+    <span class="nf">print</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="nf">output_data_to_file</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">args</span><span class="p">.</span><span class="n">outputFile</span><span class="p">)</span>
+</code></pre></div></div> </article><div id="disqus_thread" style="max-width: 800px; margin: 0 auto;"> <script type="text/javascript">var disqus_shortname="williamhdas",disqus_identifier="/blog/2023/grnpar",disqus_title="GRNPar: Parallel Inference of Gene Regulatory Networks Using Boolean Network Models and Mutual Information";!function(){var e=document.createElement("script");e.type="text/javascript",e.async=!0,e.src="//"+disqus_shortname+".disqus.com/embed.js",(document.getElementsByTagName("head")[0]||document.getElementsByTagName("body")[0]).appendChild(e)}();</script> <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript" rel="external nofollow noopener" target="_blank">comments powered by Disqus.</a> </noscript> </div> </div> </div> <footer class="fixed-bottom"> <div class="container mt-0"> © Copyright 2023 Will Das. </div> </footer> <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script> <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha256-fgLAgv7fyCGopR/gBNq2iW3ZKIdqIcyshnUULC4vex8=" crossorigin="anonymous"></script> <script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha256-Nn1q/fx0H7SNLZMQ5Hw5JLaTRZp0yILA/FRexe19VdI=" crossorigin="anonymous"></script> <script defer src="https://cdn.jsdelivr.net/npm/imagesloaded@4/imagesloaded.pkgd.min.js"></script> <script defer src="/assets/js/masonry.js" type="text/javascript"></script> <script type="text/javascript">$(function(){$('[data-toggle="tooltip"]').tooltip()});</script> <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.6/dist/medium-zoom.min.js" integrity="sha256-EdPgYcPk/IIrw7FYeuJQexva49pVRZNmt3LculEr7zM=" crossorigin="anonymous"></script> <script defer src="/assets/js/zoom.js"></script> <script defer src="/assets/js/common.js"></script> <script type="text/javascript">window.MathJax={tex:{tags:"ams"}};</script> <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js"></script> <script defer src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script> <script async src="https://www.googletagmanager.com/gtag/js?id=G-F18X1E753M"></script> <script>function gtag(){window.dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-F18X1E753M");</script> <script async src="https://cdn.panelbear.com/analytics.js?site=KSWb5eRF2j9"></script> <script>window.panelbear=window.panelbear||function(){(window.panelbear.q=window.panelbear.q||[]).push(arguments)},panelbear("config",{site:"KSWb5eRF2j9"});</script> <script type="text/javascript">function progressBarSetup(){"max"in document.createElement("progress")?(initializeProgressElement(),$(document).on("scroll",function(){progressBar.attr({value:getCurrentScrollPosition()})}),$(window).on("resize",initializeProgressElement)):(resizeProgressBar(),$(document).on("scroll",resizeProgressBar),$(window).on("resize",resizeProgressBar))}function getCurrentScrollPosition(){return $(window).scrollTop()}function initializeProgressElement(){let e=$("#navbar").outerHeight(!0);$("body").css({"padding-top":e}),$("progress-container").css({"padding-top":e}),progressBar.css({top:e}),progressBar.attr({max:getDistanceToScroll(),value:getCurrentScrollPosition()})}function getDistanceToScroll(){return $(document).height()-$(window).height()}function resizeProgressBar(){progressBar.css({width:getWidthPercentage()+"%"})}function getWidthPercentage(){return getCurrentScrollPosition()/getDistanceToScroll()*100}const progressBar=$("#progress");window.onload=function(){setTimeout(progressBarSetup,50)};</script> </body> </html>
