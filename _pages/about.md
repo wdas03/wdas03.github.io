@@ -21,16 +21,18 @@ social: true  # includes social icons at the bottom of the page
 ---
 ## Hello! 
 
-> My name is __Will Das__; I'm a Founder @ [Ocular Diagnostics](https://oculardiagnostix.com) (venture-backed MedTech startup), software engineer, and cited neurobehavioral researcher broadly interested in computational medicine, applied machine learning/AI, and software systems. Currently working on software + hardware to facilitate better diagnostic and treatment systems for different types of neurobehavioral disorders. See my [publications](https://scholar.google.com/citations?view_op=list_works&hl=en&hl=en&user=qxLzqagAAAAJ) and [code](https://github.com/wdas03).
+> My name is __Will Das__. I'm an ex-founder @ [Ocular Diagnostics](https://oculardiagnostix.com) (venture-backed MedTech startup) and cited neurobehavioral researcher broadly interested in computational medicine, applied machine learning/AI, and SaaS. Currently building in Generative AI. 
 
-- Selected as 2023 __[Kleiner Perkins Engineering Fellow](https://fellows.kleinerperkins.com)__.
+See my [publications](https://scholar.google.com/citations?view_op=list_works&hl=en&hl=en&user=qxLzqagAAAAJ) and [code](https://github.com/wdas03).
 
-- Co-founded __[Ocular Diagnostics](https://oculardiagnostix.com)__ in 2020—we’re creating a data platform to diagnose 
+- 2023 __[Kleiner Perkins Engineering Fellow](https://fellows.kleinerperkins.com)__.
+
+- Co-founded __[Ocular Diagnostics](https://oculardiagnostix.com)__ in 2021—we’re creating a data platform to diagnose 
 neurobehavioral disorders like ADHD, using just your eye movements and performance on a 20 min cognitive test. 
 
 - Co-founded and led __[Coding for Impact](https://codingforimpact.org)__ from 2018-2021, helping deliver tech to underserved NGOs across the globe.
 
-- Currently studying __CS + Cog Sci__ @ Columbia University as an __I.I. Rabi Research Scholar__. Interested in building scalable and reliable software systems.
+- Currently studying __CS + Cog Sci__ @ Columbia University as an __I.I. Rabi Research Scholar__.
 
 <!--
 > Formerly interned @:
