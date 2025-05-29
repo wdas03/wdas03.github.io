@@ -31,7 +31,7 @@ ex-founder @ [__Ocular Diagnostics__](https://oculardiagnostix.com) (venture-bac
 
 received 2024 __NSF Research Graduate Fellowship (GRFP)__ ($160K in grants for 3-5 years master's/phd) for research on _multimodal knowledge graph based LLM interpretability_.
 
-received awards from Columbia CS department for independent research in biomedical imaging (__Theodore R. Bashkow Award__).
+received awards from Columbia CS department for independent research on distilling medical image vision transformers (__Theodore R. Bashkow Award__).
 
 __currently__:
 - building internal devtools to forecast and prevent system failures @ __AWS__.
