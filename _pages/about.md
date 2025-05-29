@@ -2,33 +2,37 @@
 layout: about
 title: about
 permalink: /
-subtitle: <a href='#'>Affiliations</a>. Address. Contacts. Motto. Etc.
+subtitle: health ai x neuro research
 
 profile:
   align: right
-  image: prof_pic.jpg
+  image: 
   image_circular: false # crops the image to make it circular
-  more_info: >
-    <p>555 your office number</p>
-    <p>123 your address street</p>
-    <p>Your City, State 12345</p>
+  more_info: 
 
-selected_papers: true # includes a list of papers marked as "selected={true}"
-social: true # includes social icons at the bottom of the page
+selected_papers: false # includes a list of papers marked as "selected={true}"
+social: false # includes social icons at the bottom of the page
 
 announcements:
-  enabled: true # includes a list of news items
+  enabled: false # includes a list of news items
   scrollable: true # adds a vertical scroll bar if there are more than 3 news items
   limit: 5 # leave blank to include all the news in the `_news` folder
 
 latest_posts:
-  enabled: true
+  enabled: false
   scrollable: true # adds a vertical scroll bar if there are more than 3 new posts items
   limit: 3 # leave blank to include all the blog posts
 ---
 
-Write your biography here. Tell the world about yourself. Link to your favorite [subreddit](http://reddit.com). You can put a picture in, too. The code is already in, just name your picture `prof_pic.jpg` and put it in the `img/` folder.
+ex-founder @ [__Ocular Diagnostics__](https://oculardiagnostix.com) (venture-backed MedTech startup) - worked on ML research for ADHD diagnostics + raised $150K to build custom VR wearables to track ADHD. we were one of the first to successfully use _pupil-size movements_ for early detection (published in Nature Scientific Reports, ACM, and IEEE). 
 
-Put your address / P.O. box / other info right below your picture. You can also disable any of these elements by editing `profile` property of the YAML header of your `_pages/about.md`. Edit `_bibliography/papers.bib` and Jekyll will render your [publications page](/al-folio/publications/) automatically.
+received 2024 __NSF Research Graduate Fellowship (GRFP)__ ($160K in grants for 3-5 years master's/PhD) for research on _multimodal knowledge graph based LLM interpretability_.
 
-Link to your social media connections, too. This theme is set up to use [Font Awesome icons](https://fontawesome.com/) and [Academicons](https://jpswalsh.github.io/academicons/), like the ones below. Add your Facebook, Twitter, LinkedIn, Google Scholar, or just disable all of them.
+received recognition from Columbia CS department for independent research in biomedical imaging (__Theodore R. Bashkow Award__).
+
+prior worked on ML research for _efficient distillation_ of medical foundation models at __IBM Research__ under _Dr. Kaoutar El Maghraoui_, and low-latency systems research at __Nokia Bell Labs__. 
+
+[publications](https://scholar.google.com/citations?view_op=list_works&hl=en&hl=en&user=qxLzqagAAAAJ) + [code](https://github.com/wdas03).
+
+prior work:
+- co-founded and led __[Coding for Impact](https://codingforimpact.org)__ from 2018-2021, helping deliver tech to underserved NGOs across the globe.
