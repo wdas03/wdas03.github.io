@@ -25,7 +25,7 @@ latest_posts:
   limit: 3 # leave blank to include all the blog posts
 ---
 
-_health ai x neuro research x bci tech_
+_health ai x neuro x bci tech research_
 
 ex-founder @ [__Ocular Diagnostics__](https://oculardiagnostix.com) (venture-backed brain health startup) - worked on ml research for ADHD diagnostics + raised $150K to build custom vr wearables to track ADHD. we were one of the first to successfully use _pupil-size movements_ for early detection of neurological disorders (published in Nature Scientific Reports, ACM, and IEEE). 
 
@@ -43,7 +43,7 @@ __prior work__:
 __prior research__:
 - worked on _efficient distillation_ of medical image foundation models at __IBM Research__ under _Dr. Kaoutar El Maghraoui_ and low-latency systems research at __Nokia Bell Labs__.
 - worked on methods to hierarchically analyze bioinformatics codebases using LLMs (patent-pending) at __[Helix](https://helix.com)__ (leading population genomics company).
-- parallelized gene regulatory network inference [algorithms](https://github.com/wdas03/grnpar) in _Haskell_ using boolean networks.
+- parallelized gene regulatory network inference __[algorithms](https://github.com/wdas03/grnpar)__ in _Haskell_ using boolean networks.
 - open-sourced first __[stack](https://github.com/wdas03/sarart-experiments)__ for SARA (self-adaptive robust attention) based robotic transformers.
 
 [publications](https://scholar.google.com/citations?view_op=list_works&hl=en&hl=en&user=qxLzqagAAAAJ) + [code](https://github.com/wdas03).
