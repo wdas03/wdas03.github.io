@@ -34,7 +34,7 @@ received 2024 __NSF Research Graduate Fellowship (GRFP)__ ($160K in grants for 3
 received awards from Columbia CS department for independent research on distilling medical image vision transformers (__Theodore R. Bashkow Award__).
 
 __currently__:
-- building internal devtools to forecast and prevent system failures @ __AWS__.
+<!-- - building internal devtools to forecast and prevent system failures @ __AWS__. -->
 - research on neurostimulation for sensory and emotional modulation.
 
 __prior work__:
