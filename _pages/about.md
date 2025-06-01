@@ -41,8 +41,11 @@ __prior work__:
 - co-founded and led __[Coding for Impact](https://codingforimpact.org)__ (one of the world's largest student-led international development organizations) from 2018-2021, helping deliver tech to underserved NGOs across the globe.
 
 __prior research__:
-- worked on _efficient distillation_ of medical image foundation models at __IBM Research__ under _Dr. Kaoutar El Maghraoui_ and low-latency systems research at __Nokia Bell Labs__.
-- worked on methods to hierarchically analyze bioinformatics codebases using LLMs (patent-pending) at __[Helix](https://helix.com)__ (leading population genomics company).
+- worked on _distillation_ of medical image foundation models at __IBM Research__ under _Dr. Kaoutar El Maghraoui_ (created new distillation loss metrics using attention maps in ViTs).
+- productionized low-latency ML streaming pipelines at __Nokia Bell Labs__ for forest fire forecasting.
+- created new methods to hierarchically analyze bioinformatics codebases using LLMs (patent-pending) at __[Helix](https://helix.com)__ (leading population genomics company).
+
+__for fun__:
 - parallelized gene regulatory network inference __[algorithms](https://github.com/wdas03/grnpar)__ in _Haskell_ using boolean networks.
 - open-sourced first __[stack](https://github.com/wdas03/sarart-experiments)__ for SARA (self-adaptive robust attention) based robotic transformers.
 
