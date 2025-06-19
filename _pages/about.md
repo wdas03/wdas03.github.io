@@ -29,9 +29,9 @@ _health ai x neuro x bci tech research_
 
 ex-founder @ [__Ocular Diagnostics__](https://oculardiagnostix.com) (venture-backed brain health startup) - worked on ml research for ADHD diagnostics + raised $150K to build custom vr wearables to track ADHD. we were one of the first to successfully use _pupil-size movements_ for early detection of neurological disorders (published in Nature Scientific Reports, ACM, and IEEE). 
 
-received 2024 __NSF Research Graduate Fellowship (GRFP)__ ($160K in grants for 3-5 years master's/phd) for research on _multimodal knowledge graph based LLM interpretability_ and _knowledege graphs_ for healthcare applications.
+received 2024 __NSF Research Graduate Fellowship (GRFP)__ ($160K in grants for 3-5 years master's/phd) for research on _multimodal knowledge graphs_ for healthcare applications and _LLM interpretability_.
 
-received awards from Columbia CS department for independent research on distilling medical image vision transformers (__Theodore R. Bashkow Award__).
+received awards from _Columbia CS department_ for independent research on distilling medical image vision transformers (__Theodore R. Bashkow Award__).
 
 __currently__:
 <!-- - building internal devtools to forecast and prevent system failures @ __AWS__. -->
