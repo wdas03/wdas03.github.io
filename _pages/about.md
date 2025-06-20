@@ -35,7 +35,7 @@ received awards from _Columbia CS department_ for independent research on distil
 
 __currently__:
 <!-- - building internal devtools to forecast and prevent system failures @ __AWS__. -->
-- applied ai @ __[AWS](https://aws.amazon.com)__ - automating incident prevention for millions of developers using gen ai.
+- applied ai @ __[AWS](https://aws.amazon.com)__ - building agentic workflows to automate incident prevention for thousands of devs.
 - research on neurostimulation for sensory and emotional modulation.
 
 __prior work__:
