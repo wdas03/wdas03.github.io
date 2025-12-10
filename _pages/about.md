@@ -25,8 +25,6 @@ latest_posts:
   limit: 3 # leave blank to include all the blog posts
 ---
 
-_health ai x neuro x bci tech research_
-
 ex-founder @ [__Ocular Diagnostics__](https://oculardiagnostix.com) (venture-backed brain health startup) - worked on ml research for ADHD diagnostics + raised $150K to build custom vr wearables to track ADHD. we were one of the first to successfully use _pupil-size movements_ for early detection of neurological disorders (published in Nature Scientific Reports, ACM, and IEEE). 
 
 received 2024 __NSF Research Graduate Fellowship (GRFP)__ ($160K in grants for 3-5 years master's/phd) for research on _multimodal knowledge graphs_ for healthcare applications and _LLM interpretability_.
@@ -36,7 +34,6 @@ received awards from _Columbia CS department_ for independent research on distil
 __currently__:
 <!-- - building internal devtools to forecast and prevent system failures @ __AWS__. -->
 - applied ai @ __[AWS](https://aws.amazon.com)__ - building agentic workflows to automate incident prevention for thousands of devs.
-- research on neurostimulation for sensory and emotional modulation.
 
 __prior work__:
 - co-founded and led __[Coding for Impact](https://codingforimpact.org)__ (one of the world's largest student-led international development organizations) from 2018-2021, helping deliver tech to underserved NGOs across the globe.
